@@ -9,9 +9,9 @@ abstract class TableFiller {
     protected final String STATEMENT_ELEM_END = "),";
     protected final String STATEMENT_ENDING = ";";
     protected final String STATEMENT_GAP = ", ";
-    protected final int STUDENTS_AMOUNT = 200;
-    protected final int COURSES_AMOUNT = 10;
-    protected final int GROUPS_AMOUNT = 10;
+    public static final int STUDENTS_AMOUNT = 200;
+    public static final int COURSES_AMOUNT = 10;
+    public static final int GROUPS_AMOUNT = 10;
 
     abstract protected String generateStatement();
 }

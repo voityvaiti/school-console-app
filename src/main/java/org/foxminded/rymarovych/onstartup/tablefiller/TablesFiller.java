@@ -1,6 +1,6 @@
 package org.foxminded.rymarovych.onstartup.tablefiller;
 
-import org.foxminded.rymarovych.service.sql.DatabaseConnector;
+import org.foxminded.rymarovych.service.database.DatabaseConnector;
 
 import java.sql.Connection;
 import java.sql.SQLException;

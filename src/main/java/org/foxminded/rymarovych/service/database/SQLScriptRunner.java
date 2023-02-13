@@ -1,6 +1,4 @@
-package org.foxminded.rymarovych.service.sql;
-
-import org.foxminded.rymarovych.service.sql.DatabaseConnector;
+package org.foxminded.rymarovych.service.database;
 
 import java.io.IOException;
 import java.nio.file.Files;

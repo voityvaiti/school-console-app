@@ -81,7 +81,7 @@ public class StudentsTableFiller extends TableFiller {
         }
 
         if (studentsInGroups.size() < STUDENTS_AMOUNT) {
-            for (int i = studentsInGroups.size() - 1; i < STUDENTS_AMOUNT; i++) {
+            for (int i = studentsInGroups.size() - 1; i <= STUDENTS_AMOUNT; i++) {
                 studentsInGroups.add(0);
             }
         }

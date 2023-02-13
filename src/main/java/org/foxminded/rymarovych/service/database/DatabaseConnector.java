@@ -1,4 +1,4 @@
-package org.foxminded.rymarovych.service.sql;
+package org.foxminded.rymarovych.service.database;
 
 import java.io.IOException;
 import java.sql.Connection;

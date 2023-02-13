@@ -1,6 +1,6 @@
 package org.foxminded.rymarovych.onstartup;
 
-import org.foxminded.rymarovych.service.sql.SQLScriptRunner;
+import org.foxminded.rymarovych.service.database.SQLScriptRunner;
 
 import java.nio.file.Paths;
 
