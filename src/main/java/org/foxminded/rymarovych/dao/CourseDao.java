@@ -9,26 +9,15 @@ import java.sql.SQLException;
 
 public class CourseDao {
 
-    private static CourseDao instance;
-
     private final Connection connection = DatabaseConnector.getInstance().getConnection();
 
-
-    private CourseDao() {
-    }
-
-    public static CourseDao getInstance() {
-        if (instance == null) {
-            instance = new CourseDao();
-        }
-        return instance;
-    }
-
     public int getCourseIdByName(String name) {
-        try {
 
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("SELECT id FROM courses WHERE name=?");
+        final String GET_COURSE_ID_BY_NAME_STATEMENT = "SELECT id FROM courses WHERE name=?";
+
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement(GET_COURSE_ID_BY_NAME_STATEMENT)) {
+
             preparedStatement.setString(1, name);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -40,7 +29,6 @@ public class CourseDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return -1;
     }
 }

@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class GroupQueriesHandler {
 
-    private final GroupDao groupDao = GroupDao.getInstance();
+    private final GroupDao groupDao = new GroupDao();
 
     Scanner scanner = new Scanner(System.in);
 

@@ -11,29 +11,19 @@ import java.util.List;
 
 public class StudentCourseDao {
 
-    private static StudentCourseDao instance;
-
     private final Connection connection = DatabaseConnector.getInstance().getConnection();
 
     private int currentStudentCourseMaxId = countStudentsCourses();
 
-
-    private StudentCourseDao() {
-    }
-
-    public static StudentCourseDao getInstance() {
-        if (instance == null) {
-            instance = new StudentCourseDao();
-        }
-        return instance;
-    }
-
     public List<Integer> getStudentsWithSpecificCourse(int courseId) {
+        final String GET_STUDENTS_ID_BY_COURSE_ID_STATEMENT =
+                "SELECT student_id FROM students_courses WHERE course_id=?";
+
         List<Integer> listOfStudentsId = new ArrayList<>();
 
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("SELECT student_id FROM students_courses WHERE course_id=?");
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement(GET_STUDENTS_ID_BY_COURSE_ID_STATEMENT)) {
+
             preparedStatement.setInt(1, courseId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -51,12 +41,15 @@ public class StudentCourseDao {
     }
 
     public int getStudentCourseId(int studentId, int courseId) {
-        try {
+        final String GET_STUDENTS_COURSES_ID_BY_STUDENT_ID_AND_COURSE_ID_STATEMENT =
+                "SELECT id FROM students_courses WHERE student_id=? AND course_id=?";
 
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT id FROM students_courses WHERE student_id=? AND course_id=?");
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                GET_STUDENTS_COURSES_ID_BY_STUDENT_ID_AND_COURSE_ID_STATEMENT)) {
+
             preparedStatement.setInt(1, studentId);
             preparedStatement.setInt(2, courseId);
+
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("id");
@@ -69,10 +62,12 @@ public class StudentCourseDao {
     }
 
     public void addStudentToTheCourse(int studentId, int courseId) {
-        try {
+        final String ADD_STUDENT_COURSE_STATEMENT =
+                "INSERT INTO students_courses (id, student_id, course_id) VALUES (?, ?, ?)";
 
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO students_courses (id, student_id, course_id) VALUES (?, ?, ?)");
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                ADD_STUDENT_COURSE_STATEMENT)) {
+
             preparedStatement.setInt(1, ++currentStudentCourseMaxId);
             preparedStatement.setInt(2, studentId);
             preparedStatement.setInt(3, courseId);
@@ -84,11 +79,14 @@ public class StudentCourseDao {
     }
 
     public void deleteStudentFromCourse(int studentId, int courseId) {
+        final String DElETE_STUDENT_COURSE_BY_ID_STATEMENT =
+                "DELETE FROM students_courses WHERE id=?";
+
         int studentCourseId = getStudentCourseId(studentId, courseId);
-        System.out.println(studentCourseId);
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "DELETE FROM students_courses WHERE id=?");
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                DElETE_STUDENT_COURSE_BY_ID_STATEMENT)) {
+
             preparedStatement.setInt(1, studentCourseId);
             preparedStatement.executeUpdate();
 
@@ -98,10 +96,12 @@ public class StudentCourseDao {
     }
 
     public int countStudentsCourses() {
-        try {
-            ResultSet resultSet = connection.createStatement().executeQuery(
-                    "SELECT COUNT(*) AS amount FROM students_courses"
-            );
+        final String GET_AMOUNT_OF_STUDENTS_COURSES_STATEMENT =
+                "SELECT COUNT(*) AS amount FROM students_courses";
+
+        try (ResultSet resultSet = connection.createStatement().executeQuery(
+                GET_AMOUNT_OF_STUDENTS_COURSES_STATEMENT)) {
+
             if (resultSet.next()) {
                 return resultSet.getInt("amount");
 

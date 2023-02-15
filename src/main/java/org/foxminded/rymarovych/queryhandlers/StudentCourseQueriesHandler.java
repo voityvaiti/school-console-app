@@ -5,7 +5,7 @@ import org.foxminded.rymarovych.dao.StudentCourseDao;
 import java.util.Scanner;
 
 public class StudentCourseQueriesHandler {
-    private final StudentCourseDao studentCourseDao = StudentCourseDao.getInstance();
+    private final StudentCourseDao studentCourseDao = new StudentCourseDao();
 
     Scanner scanner = new Scanner(System.in);
 

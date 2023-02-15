@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class StudentQueriesHandler {
 
-    private final StudentDao studentsDao = StudentDao.getInstance();
+    private final StudentDao studentsDao = new StudentDao();
 
     Scanner scanner = new Scanner(System.in);
 
@@ -19,10 +19,10 @@ public class StudentQueriesHandler {
         System.out.println("Type course name:");
         String courseName = scanner.next();
 
-        CourseDao courseDao = CourseDao.getInstance();
+        CourseDao courseDao = new CourseDao();
         int courseId = courseDao.getCourseIdByName(courseName);
 
-        StudentCourseDao studentCourseDao = StudentCourseDao.getInstance();
+        StudentCourseDao studentCourseDao = new StudentCourseDao();
         List<Integer> studentsId = studentCourseDao.getStudentsWithSpecificCourse(courseId);
 
         if(studentsId.isEmpty()) {
@@ -55,6 +55,6 @@ public class StudentQueriesHandler {
     protected void removeStudentById() {
         System.out.println("Type Student's id:");
         int id = scanner.nextInt();
-        studentsDao.removeStudent(id);
+        studentsDao.deleteStudent(id);
     }
 }

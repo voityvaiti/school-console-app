@@ -10,32 +10,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StudentDao {
-    private static StudentDao instance;
 
     private final Connection connection = DatabaseConnector.getInstance().getConnection();
 
     private int currentStudentMaxId = StudentsTableFiller.STUDENTS_AMOUNT;
 
-    private StudentDao() {
-    }
-
-    public static StudentDao getInstance() {
-        if (instance == null) {
-            instance = new StudentDao();
-        }
-        return instance;
-    }
-
     public Student getSpecificStudent(int id) {
+        final String GET_STUDENT_BY_ID_STATEMENT =
+                "SELECT * FROM students WHERE id=?";
+
         Student student = new Student();
 
-        try {
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement(GET_STUDENT_BY_ID_STATEMENT)) {
 
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("SELECT * FROM students WHERE id=?");
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
 
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 student.setId(resultSet.getInt("id"));
                 student.setGroupId(resultSet.getInt("group_id"));
@@ -51,10 +42,12 @@ public class StudentDao {
     }
 
     public void addStudent(Student student) {
-        try {
+        final String ADD_STUDENT_STATEMENT =
+                "INSERT INTO students (id, group_id, first_name, last_name) VALUES (?, ?, ?, ?)";
 
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO students (id, group_id, first_name, last_name) VALUES (?, ?, ?, ?)");
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                ADD_STUDENT_STATEMENT)) {
+
             preparedStatement.setInt(1, ++currentStudentMaxId);
             preparedStatement.setInt(2, student.getGroupId());
             preparedStatement.setString(3, student.getFirstName());
@@ -66,10 +59,13 @@ public class StudentDao {
         }
     }
 
-    public void removeStudent(int id) {
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("DELETE FROM students WHERE id=?");
+    public void deleteStudent(int id) {
+        final String DELETE_STUDENT_BY_ID_STATEMENT =
+                "DELETE FROM students WHERE id=?";
+
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement(DELETE_STUDENT_BY_ID_STATEMENT)) {
+
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 

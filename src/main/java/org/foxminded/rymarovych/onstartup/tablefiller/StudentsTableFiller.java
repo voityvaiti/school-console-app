@@ -11,20 +11,7 @@ public class StudentsTableFiller extends TableFiller {
     protected String generateStatement() {
         StringBuilder statementBuilder = new StringBuilder();
 
-        final String[] FIRST_NAMES = {"John", "Dave", "Seth", "Gilbert", "Jorge",
-                "Dan", "Brian", "Roberto", "Ramon", "Miles",
-                "Daisy", "Isabel", "Stella", "Debra", "Vera",
-                "Lucy", "Loretta", "Tracey", "Molly", "Nicole"};
-
-        final String[] LAST_NAMES = {"Smith", "Jones", "Williams", "Taylor", "Brown",
-                "Thomas", "Wilson", "Johnson", "Roberts", "Robinson",
-                "Walker", "White", "Edwards", "Green", "Hall",
-                "Wright", "Lewis", "Harris", "Hill", "Clark"};
-
-        List<Integer> studentsInGroups = getStudentsGroups();
-
-        final int AMOUNT_OF_FIRST_NAMES = FIRST_NAMES.length;
-        final int AMOUNT_OF_LAST_NAMES = LAST_NAMES.length;
+        List<Integer> studentsInGroups = generateStudentsGroups();
 
         final String STATEMENT_BEGINNING = "INSERT INTO students " +
                 "(id, group_id, first_name, last_name) VALUES ";
@@ -32,16 +19,11 @@ public class StudentsTableFiller extends TableFiller {
         statementBuilder.append(STATEMENT_BEGINNING);
 
         for (int i = 1; i <= STUDENTS_AMOUNT; i++) {
-            String firstName = SingleQuotesWrapper.wrapInSingleQuotes(
-                    FIRST_NAMES[random.nextInt(AMOUNT_OF_FIRST_NAMES - 1)]
-            );
 
-            String lastName = SingleQuotesWrapper.wrapInSingleQuotes(
-                    LAST_NAMES[random.nextInt(AMOUNT_OF_LAST_NAMES - 1)]
-            );
+            String firstName = generateFirstName();
+            String lastName = generateLastName();
 
-            int group = studentsInGroups.get(i);
-
+            int group = studentsInGroups.get(i - 1);
 
             statementBuilder.append(STATEMENT_ELEM_START).
                     append(i).append(STATEMENT_GAP).
@@ -56,7 +38,7 @@ public class StudentsTableFiller extends TableFiller {
         return statementBuilder.toString();
     }
 
-    private List<Integer> getStudentsGroups() {
+    private List<Integer> generateStudentsGroups() {
         List<Integer> studentsInGroups = new ArrayList<>(200);
 
         final int MIN_STUDENTS_IN_GROUP = 10;
@@ -86,5 +68,33 @@ public class StudentsTableFiller extends TableFiller {
             }
         }
         return studentsInGroups;
+    }
+
+    private String generateFirstName() {
+
+        final String[] FIRST_NAMES = {"John", "Dave", "Seth", "Gilbert", "Jorge",
+                "Dan", "Brian", "Roberto", "Ramon", "Miles",
+                "Daisy", "Isabel", "Stella", "Debra", "Vera",
+                "Lucy", "Loretta", "Tracey", "Molly", "Nicole"};
+
+        final int AMOUNT_OF_FIRST_NAMES = FIRST_NAMES.length;
+
+        return SingleQuotesWrapper.wrapInSingleQuotes(
+                FIRST_NAMES[random.nextInt(AMOUNT_OF_FIRST_NAMES - 1)]
+        );
+    }
+
+    private String generateLastName() {
+
+        final String[] LAST_NAMES = {"Smith", "Jones", "Williams", "Taylor", "Brown",
+                "Thomas", "Wilson", "Johnson", "Roberts", "Robinson",
+                "Walker", "White", "Edwards", "Green", "Hall",
+                "Wright", "Lewis", "Harris", "Hill", "Clark"};
+
+        final int AMOUNT_OF_LAST_NAMES = LAST_NAMES.length;
+
+        return SingleQuotesWrapper.wrapInSingleQuotes(
+                LAST_NAMES[random.nextInt(AMOUNT_OF_LAST_NAMES - 1)]
+        );
     }
 }

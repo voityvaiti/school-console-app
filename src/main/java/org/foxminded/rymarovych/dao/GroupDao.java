@@ -11,33 +11,23 @@ import java.util.Map;
 
 public class GroupDao {
 
-    private static GroupDao instance;
-
     private final Connection connection = DatabaseConnector.getInstance().getConnection();
 
-    private GroupDao() {
-    }
-
-
-    public static GroupDao getInstance() {
-        if (instance == null) {
-            instance = new GroupDao();
-        }
-        return instance;
-    }
 
     public Map<Integer, Integer> getGroupIdToStudentsAmount() {
+
+        final String GET_GROUPS_ID_AND_AMOUNT_OF_ITS_STUDENTS_STATEMENT =
+                """
+                        SELECT groups.id, COUNT(students.id) AS amount_of_students
+                        from students JOIN groups
+                        on students.group_id = groups.id
+                        GROUP BY groups.id;
+                        """;
+
         Map<Integer, Integer> groupIdToStudentsAmount = new HashMap<>();
 
-        try {
-            ResultSet resultSet = connection.createStatement().executeQuery(
-                    """
-                            SELECT groups.id, COUNT(students.id) AS amount_of_students
-                            from students JOIN groups
-                            on students.group_id = groups.id
-                            GROUP BY groups.id;
-                            """
-            );
+        try (ResultSet resultSet = connection.createStatement().executeQuery(
+                GET_GROUPS_ID_AND_AMOUNT_OF_ITS_STUDENTS_STATEMENT)) {
 
             while (resultSet.next()) {
                 groupIdToStudentsAmount.put(
@@ -54,11 +44,14 @@ public class GroupDao {
     }
 
     public String getGroupNameById(int id) {
+
+        final String GET_GROUP_NAME_BY_ID_STATEMENT = "SELECT name FROM groups WHERE id=?";
+
         String groupName = "";
 
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("SELECT name FROM groups WHERE id=?");
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement(GET_GROUP_NAME_BY_ID_STATEMENT)) {
+
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
