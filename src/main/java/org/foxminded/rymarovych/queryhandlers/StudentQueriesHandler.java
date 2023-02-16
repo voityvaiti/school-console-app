@@ -1,7 +1,5 @@
 package org.foxminded.rymarovych.queryhandlers;
 
-import org.foxminded.rymarovych.dao.CourseDao;
-import org.foxminded.rymarovych.dao.StudentCourseDao;
 import org.foxminded.rymarovych.dao.StudentDao;
 import org.foxminded.rymarovych.models.Student;
 
@@ -10,34 +8,46 @@ import java.util.Scanner;
 
 public class StudentQueriesHandler {
 
-    private final StudentDao studentsDao = new StudentDao();
+    private StudentDao studentsDao = new StudentDao();
 
     Scanner scanner = new Scanner(System.in);
 
-    protected void printStudentsRelatedToCourse() {
+    protected StudentQueriesHandler() {
+    }
 
+    protected StudentQueriesHandler(StudentDao studentsDao) {
+        this.studentsDao = studentsDao;
+    }
+
+    protected void handlePrintStudentsRelatedToCourse() {
         System.out.println("Type course name:");
         String courseName = scanner.next();
 
-        CourseDao courseDao = new CourseDao();
-        int courseId = courseDao.getCourseIdByName(courseName);
+        System.out.print(
+                printStudentsRelatedToCourse(courseName)
+        );
+    }
 
-        StudentCourseDao studentCourseDao = new StudentCourseDao();
-        List<Integer> studentsId = studentCourseDao.getStudentsWithSpecificCourse(courseId);
+    protected String printStudentsRelatedToCourse(String courseName) {
 
-        if(studentsId.isEmpty()) {
-            System.out.println("No students related to this course or no such course");
+        StringBuilder messageBuilder = new StringBuilder();
+
+        List<Student> studentList = studentsDao.getStudentsByCourseName(courseName);
+
+        if (studentList.isEmpty()) {
+            messageBuilder.append("No students related to this course or no such course\n");
 
         } else {
 
-            for(Integer id: studentsId) {
-                System.out.println(studentsDao.getSpecificStudent(id));
+            for (Student student : studentList) {
+                messageBuilder.append(student.toString()).append("\n");
             }
         }
-        System.out.println("------------");
+
+        return messageBuilder.toString();
     }
 
-    protected void studentAddition() {
+    protected void handleStudentAddition() {
         System.out.println("Type Student's group id:");
         int groupId = scanner.nextInt();
 
@@ -47,14 +57,23 @@ public class StudentQueriesHandler {
         System.out.println("Type Student's last name:");
         String lastName = scanner.next();
 
+        studentAddition(groupId, firstName, lastName);
+    }
+
+    protected void studentAddition(int groupId, String firstName, String lastName) {
         studentsDao.addStudent(
                 new Student(groupId, firstName, lastName)
         );
     }
 
-    protected void removeStudentById() {
+    protected void handleRemoveStudentById() {
         System.out.println("Type Student's id:");
         int id = scanner.nextInt();
+
+        removeStudentById(id);
+    }
+
+    protected void removeStudentById(int id) {
         studentsDao.deleteStudent(id);
     }
 }

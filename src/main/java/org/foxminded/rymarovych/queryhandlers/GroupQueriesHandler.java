@@ -8,14 +8,30 @@ import java.util.Scanner;
 
 public class GroupQueriesHandler {
 
-    private final GroupDao groupDao = new GroupDao();
+    private GroupDao groupDao = new GroupDao();
 
     Scanner scanner = new Scanner(System.in);
 
-    protected void printGroupsWithLessOrEqualsStudentsAmount() {
+    protected GroupQueriesHandler() {
+    }
+
+    protected GroupQueriesHandler(GroupDao groupDao) {
+        this.groupDao = groupDao;
+    }
+
+    protected void handlePrintGroupsWithLessOrEqualsStudentsAmount() {
 
         System.out.println("Type >=student's amount:");
         int requestedStudentsAmount = scanner.nextInt();
+
+        System.out.print(
+                getMessageOfGroupsWithLessOrEqualsStudentsAmount(requestedStudentsAmount)
+        );
+    }
+
+    protected String getMessageOfGroupsWithLessOrEqualsStudentsAmount(int requestedStudentsAmount) {
+
+        StringBuilder messageBuilder = new StringBuilder();
 
         Map<Integer, Integer> groupIdToStudentsAmount = groupDao.getGroupIdToStudentsAmount();
 
@@ -23,17 +39,16 @@ public class GroupQueriesHandler {
                 filter(entity -> entity.getValue() <= requestedStudentsAmount).toList();
 
         if (filteredEntryList.isEmpty()) {
-            System.out.println("No such groups");
-
+            messageBuilder.append("No such groups\n");
         } else {
 
             for (Map.Entry<Integer, Integer> entry : filteredEntryList) {
-                System.out.println(
+                messageBuilder.append(
                         groupDao.getGroupNameById(entry.getKey())
-                );
+                ).append("\n");
             }
         }
 
-        System.out.println("---------");
+        return messageBuilder.toString();
     }
 }

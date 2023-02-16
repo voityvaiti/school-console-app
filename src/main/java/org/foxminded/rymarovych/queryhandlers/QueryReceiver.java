@@ -9,6 +9,8 @@ public class QueryReceiver {
     private final StudentCourseQueriesHandler studentCourseQueriesHandler =
             new StudentCourseQueriesHandler();
 
+    private final String MESSAGE_ENDING = "----------\n";
+
     public void receiveAndHandleQueries() {
         Scanner scanner = new Scanner(System.in);
 
@@ -33,31 +35,22 @@ public class QueryReceiver {
 
             if (query >= 1 && query <= 6) {
                 switch (query) {
-                    case 1:
-                        groupQueriesHandler.printGroupsWithLessOrEqualsStudentsAmount();
-                        break;
-                    case 2:
-                        studentQueriesHandler.printStudentsRelatedToCourse();
-                        break;
-                    case 3:
-                        studentQueriesHandler.studentAddition();
-                        break;
-                    case 4:
-                        studentQueriesHandler.removeStudentById();
-                        break;
-                    case 5:
-                        studentCourseQueriesHandler.studentAdditionToTheCourse();
-                        break;
-                    case 6:
-                        studentCourseQueriesHandler.studentRemovingFromTheCourse();
-                        break;
+                    case 1 -> groupQueriesHandler.handlePrintGroupsWithLessOrEqualsStudentsAmount();
+                    case 2 -> studentQueriesHandler.handlePrintStudentsRelatedToCourse();
+                    case 3 -> studentQueriesHandler.handleStudentAddition();
+                    case 4 -> studentQueriesHandler.handleRemoveStudentById();
+                    case 5 -> studentCourseQueriesHandler.handleStudentAdditionToTheCourse();
+                    case 6 -> studentCourseQueriesHandler.handleStudentRemovingFromTheCourse();
                 }
             } else {
                 System.out.println("Error! Wrong query");
             }
 
-            System.out.println(menu);
-            System.out.println("To stop program type " + STOP_PROGRAM_COMMAND);
+            System.out.println(
+                    MESSAGE_ENDING + "\n" +
+                            menu + "\n" +
+                            "To stop program type " + STOP_PROGRAM_COMMAND + "\n"
+            );
 
             query = scanner.nextInt();
         }
