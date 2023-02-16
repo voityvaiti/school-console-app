@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentDao {
 
@@ -15,30 +17,41 @@ public class StudentDao {
 
     private int currentStudentMaxId = StudentsTableFiller.STUDENTS_AMOUNT;
 
-    public Student getSpecificStudent(int id) {
-        final String GET_STUDENT_BY_ID_STATEMENT =
-                "SELECT * FROM students WHERE id=?";
+    public List<Student> getStudentsByCourseName(String courseName) {
+        final String GET_STUDENTS_BY_COURSE_NAME = """
+                SELECT students.id AS id, students.group_id AS group_id,
+                students.first_name AS first_name,
+                students.last_name AS last_name
+                FROM students JOIN students_courses
+                ON students.id = students_courses.student_id
+                JOIN courses
+                ON students_courses.course_id = courses.id
+                WHERE courses.name = ?;
+                """;
 
-        Student student = new Student();
+        List<Student> studentList = new ArrayList<>();
 
         try (PreparedStatement preparedStatement =
-                     connection.prepareStatement(GET_STUDENT_BY_ID_STATEMENT)) {
+                     connection.prepareStatement(GET_STUDENTS_BY_COURSE_NAME)) {
 
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, courseName);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                student.setId(resultSet.getInt("id"));
-                student.setGroupId(resultSet.getInt("group_id"));
-                student.setFirstName(resultSet.getString("first_name"));
-                student.setLastName(resultSet.getString("last_name"));
+            while (resultSet.next()) {
+                Student student = new Student(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("group_id"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name")
+                );
+                studentList.add(student);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return student;
+        return studentList;
     }
 
     public void addStudent(Student student) {
