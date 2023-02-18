@@ -6,10 +6,9 @@ public class QueryReceiver {
 
     private final StudentQueriesHandler studentQueriesHandler = new StudentQueriesHandler();
     private final GroupQueriesHandler groupQueriesHandler = new GroupQueriesHandler();
-    private final StudentCourseQueriesHandler studentCourseQueriesHandler =
-            new StudentCourseQueriesHandler();
+    private final CourseQueriesHandler courseQueriesHandler = new CourseQueriesHandler();
 
-    private final String MESSAGE_ENDING = "----------\n";
+    private static final String MESSAGE_ENDING = "----------\n";
 
     public void receiveAndHandleQueries() {
         Scanner scanner = new Scanner(System.in);
@@ -39,8 +38,8 @@ public class QueryReceiver {
                     case 2 -> studentQueriesHandler.handlePrintStudentsRelatedToCourse();
                     case 3 -> studentQueriesHandler.handleStudentAddition();
                     case 4 -> studentQueriesHandler.handleRemoveStudentById();
-                    case 5 -> studentCourseQueriesHandler.handleStudentAdditionToTheCourse();
-                    case 6 -> studentCourseQueriesHandler.handleStudentRemovingFromTheCourse();
+                    case 5 -> courseQueriesHandler.handleStudentAdditionToTheCourse();
+                    case 6 -> courseQueriesHandler.handleStudentRemovingFromTheCourse();
                 }
             } else {
                 System.out.println("Error! Wrong query");

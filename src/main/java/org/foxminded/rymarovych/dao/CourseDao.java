@@ -31,4 +31,38 @@ public class CourseDao {
         }
         return -1;
     }
+
+    public void addStudentToTheCourse(int studentId, String courseName) {
+        final String ADD_STUDENT_COURSE_STATEMENT =
+                "INSERT INTO students_courses (student_id, course_id) VALUES (?," +
+                        "(SELECT id FROM courses WHERE name = ?));";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                ADD_STUDENT_COURSE_STATEMENT)) {
+
+            preparedStatement.setInt(1, studentId);
+            preparedStatement.setString(2, courseName);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteStudentFromCourse(int studentId, String courseName) {
+        final String DElETE_STUDENT_COURSE_BY_ID_STATEMENT =
+                "DELETE FROM students_courses WHERE student_id = ? AND course_id = " +
+                        "(SELECT id FROM courses WHERE name = ?);";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                DElETE_STUDENT_COURSE_BY_ID_STATEMENT)) {
+
+            preparedStatement.setInt(1, studentId);
+            preparedStatement.setString(2, courseName);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

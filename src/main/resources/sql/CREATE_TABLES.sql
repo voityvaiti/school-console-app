@@ -32,7 +32,6 @@ CREATE TABLE courses
 
 CREATE TABLE students_courses
 (
-    id INT PRIMARY KEY,
     student_id int,
     course_id  int
 );

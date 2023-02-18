@@ -1,6 +1,5 @@
 package org.foxminded.rymarovych.queryhandlers;
 
-import org.foxminded.rymarovych.dao.StudentCourseDao;
 import org.foxminded.rymarovych.dao.StudentDao;
 import org.foxminded.rymarovych.models.Student;
 import org.junit.jupiter.api.BeforeAll;

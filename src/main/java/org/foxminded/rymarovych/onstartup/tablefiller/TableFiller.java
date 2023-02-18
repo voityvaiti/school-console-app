@@ -5,13 +5,13 @@ import java.util.Random;
 abstract class TableFiller {
     protected final Random random = new Random();
 
-    protected final String STATEMENT_ELEM_START = "\n (";
-    protected final String STATEMENT_ELEM_END = "),";
-    protected final String STATEMENT_ENDING = ";";
-    protected final String STATEMENT_GAP = ", ";
+    protected static final String STATEMENT_ELEM_START = "\n (";
+    protected static final String STATEMENT_ELEM_END = "),";
+    protected static final String STATEMENT_ENDING = ";";
+    protected static final String STATEMENT_GAP = ", ";
     public static final int STUDENTS_AMOUNT = 200;
     public static final int COURSES_AMOUNT = 10;
     public static final int GROUPS_AMOUNT = 10;
 
-    abstract protected String generateStatement();
+    protected abstract String generateStatement();
 }

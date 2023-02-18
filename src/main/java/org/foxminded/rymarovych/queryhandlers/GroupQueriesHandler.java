@@ -10,7 +10,7 @@ public class GroupQueriesHandler {
 
     private GroupDao groupDao = new GroupDao();
 
-    Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     protected GroupQueriesHandler() {
     }

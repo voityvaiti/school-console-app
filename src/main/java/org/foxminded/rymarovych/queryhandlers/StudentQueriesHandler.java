@@ -10,7 +10,7 @@ public class StudentQueriesHandler {
 
     private StudentDao studentsDao = new StudentDao();
 
-    Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     protected StudentQueriesHandler() {
     }
