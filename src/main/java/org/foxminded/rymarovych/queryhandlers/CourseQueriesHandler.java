@@ -1,19 +1,21 @@
 package org.foxminded.rymarovych.queryhandlers;
 
-import org.foxminded.rymarovych.dao.CourseDao;
+import org.foxminded.rymarovych.config.SpringJdbcConfig;
+import org.foxminded.rymarovych.dao.JdbcCourseDao;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Scanner;
 
 public class CourseQueriesHandler {
 
-    private CourseDao courseDao = new CourseDao();
+    private JdbcCourseDao jdbcCourseDao =
+            new AnnotationConfigApplicationContext(SpringJdbcConfig.class).getBean(JdbcCourseDao.class);
 
     private final Scanner scanner = new Scanner(System.in);
 
     protected CourseQueriesHandler() {}
-
-    protected CourseQueriesHandler(CourseDao courseDao) {
-        this.courseDao = courseDao;
+    protected CourseQueriesHandler(JdbcCourseDao jdbcCourseDao) {
+        this.jdbcCourseDao = jdbcCourseDao;
     }
 
     protected void handleStudentAdditionToTheCourse() {
@@ -23,16 +25,16 @@ public class CourseQueriesHandler {
         System.out.println("Type course name:");
         String courseName = scanner.next();
 
-        if(courseDao.getCourseIdByName(courseName) == -1) {
-            System.out.println("No such course");
+        if(jdbcCourseDao.findCourseByName(courseName).isPresent()) {
+            studentAdditionToTheCourse(studentId, courseName);
 
         } else {
-            studentAdditionToTheCourse(studentId, courseName);
+            System.out.println("No such course");
         }
     }
 
     protected void studentAdditionToTheCourse(int studentId, String courseName) {
-        courseDao.addStudentToTheCourse(studentId, courseName);
+        jdbcCourseDao.addStudentToTheCourse(studentId, courseName);
     }
 
     protected void handleStudentRemovingFromTheCourse() {
@@ -42,15 +44,15 @@ public class CourseQueriesHandler {
         System.out.println("Type course name:");
         String courseName = scanner.next();
 
-        if(courseDao.getCourseIdByName(courseName) == -1) {
-            System.out.println("No such course");
+        if(jdbcCourseDao.findCourseByName(courseName).isPresent()) {
+            studentRemovingFromTheCourse(studentId, courseName);
 
         } else {
-            studentRemovingFromTheCourse(studentId, courseName);
+            System.out.println("No such course");
         }
     }
 
     protected void studentRemovingFromTheCourse(int studentId, String courseName) {
-        courseDao.deleteStudentFromCourse(studentId, courseName);
+        jdbcCourseDao.deleteStudentFromCourse(studentId, courseName);
     }
 }

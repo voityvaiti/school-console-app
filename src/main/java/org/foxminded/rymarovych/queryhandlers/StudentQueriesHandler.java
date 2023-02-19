@@ -1,21 +1,25 @@
 package org.foxminded.rymarovych.queryhandlers;
 
-import org.foxminded.rymarovych.dao.StudentDao;
+import org.foxminded.rymarovych.config.SpringJdbcConfig;
+import org.foxminded.rymarovych.dao.JdbcGroupDao;
+import org.foxminded.rymarovych.dao.JdbcStudentDao;
 import org.foxminded.rymarovych.models.Student;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class StudentQueriesHandler {
 
-    private StudentDao studentsDao = new StudentDao();
+    private JdbcStudentDao studentsDao =
+            new AnnotationConfigApplicationContext(SpringJdbcConfig.class).getBean(JdbcStudentDao.class);;
 
     private final Scanner scanner = new Scanner(System.in);
 
     protected StudentQueriesHandler() {
     }
 
-    protected StudentQueriesHandler(StudentDao studentsDao) {
+    protected StudentQueriesHandler(JdbcStudentDao studentsDao) {
         this.studentsDao = studentsDao;
     }
 

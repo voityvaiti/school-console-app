@@ -1,6 +1,6 @@
 package org.foxminded.rymarovych.queryhandlers;
 
-import org.foxminded.rymarovych.dao.StudentDao;
+import org.foxminded.rymarovych.dao.JdbcStudentDao;
 import org.foxminded.rymarovych.models.Student;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,13 +15,13 @@ import static org.mockito.Mockito.when;
 
 class StudentQueriesHandlerTest {
 
-    static StudentDao studentDao;
+    static JdbcStudentDao studentDao;
 
     static List<Student> studentDaoReturnedList;
 
     @BeforeAll
     static void setUp() {
-        studentDao = Mockito.mock(StudentDao.class);
+        studentDao = Mockito.mock(JdbcStudentDao.class);
         studentDaoReturnedList = new ArrayList<>();
 
         when(studentDao.getStudentsByCourseName(anyString())).thenReturn(studentDaoReturnedList);
