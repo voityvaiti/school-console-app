@@ -42,10 +42,10 @@ class GroupQueriesHandlerTest {
         group4.setName("GROUP4");
 
         when(groupDao.getGroupIdToStudentsAmount()).thenReturn(groupDaoReturnedMap);
-        when(groupDao.getGroupById(1)).thenReturn(Optional.of(group1));
-        when(groupDao.getGroupById(2)).thenReturn(Optional.of(group2));
-        when(groupDao.getGroupById(3)).thenReturn(Optional.of(group3));
-        when(groupDao.getGroupById(4)).thenReturn(Optional.of(group4));
+        when(groupDao.findGroupById(1)).thenReturn(Optional.of(group1));
+        when(groupDao.findGroupById(2)).thenReturn(Optional.of(group2));
+        when(groupDao.findGroupById(3)).thenReturn(Optional.of(group3));
+        when(groupDao.findGroupById(4)).thenReturn(Optional.of(group4));
     }
 
     @Test

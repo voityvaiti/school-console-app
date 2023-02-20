@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface GroupDao {
     Map<Integer, Integer> getGroupIdToStudentsAmount();
 
-    Optional<Group> getGroupById(int id);
+    Optional<Group> findGroupById(int id);
 }

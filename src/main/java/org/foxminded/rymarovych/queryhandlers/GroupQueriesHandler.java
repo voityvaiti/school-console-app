@@ -1,9 +1,7 @@
 package org.foxminded.rymarovych.queryhandlers;
 
-import org.foxminded.rymarovych.config.SpringJdbcConfig;
 import org.foxminded.rymarovych.dao.JdbcGroupDao;
 import org.foxminded.rymarovych.models.Group;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
 import java.util.Map;
@@ -11,8 +9,7 @@ import java.util.Scanner;
 
 public class GroupQueriesHandler {
 
-    private JdbcGroupDao groupDao =
-            new AnnotationConfigApplicationContext(SpringJdbcConfig.class).getBean(JdbcGroupDao.class);
+    private JdbcGroupDao groupDao;
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -48,7 +45,7 @@ public class GroupQueriesHandler {
 
             for (Map.Entry<Integer, Integer> entry : filteredEntryList) {
                 messageBuilder.append(
-                        groupDao.getGroupById(entry.getKey())
+                        groupDao.findGroupById(entry.getKey())
                                 .stream().findAny().orElse(new Group())
                 ).append("\n");
             }

@@ -22,7 +22,7 @@ public class DatabaseConnector {
         try {
             Properties dbProperties = new Properties();
             dbProperties.load(DatabaseConnector.class.getClassLoader().getResourceAsStream(
-                    "properties/db.properties"));
+                    "db/db.properties"));
 
             connection = DriverManager.getConnection(dbProperties.getProperty("URL"),
                     dbProperties.getProperty("USER"), dbProperties.getProperty("PASSWORD"));

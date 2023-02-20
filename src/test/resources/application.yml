@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:postgresql:15.2:///test?currentSchema=school_db&TC_REUSABLE=true
+    username: postgres
+    password: qwerty123
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 5

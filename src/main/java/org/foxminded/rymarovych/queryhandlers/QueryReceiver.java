@@ -32,7 +32,6 @@ public class QueryReceiver {
 
         while (query != STOP_PROGRAM_COMMAND) {
 
-            if (query >= 1 && query <= 6) {
                 switch (query) {
                     case 1 -> groupQueriesHandler.handlePrintGroupsWithLessOrEqualsStudentsAmount();
                     case 2 -> studentQueriesHandler.handlePrintStudentsRelatedToCourse();
@@ -40,10 +39,8 @@ public class QueryReceiver {
                     case 4 -> studentQueriesHandler.handleRemoveStudentById();
                     case 5 -> courseQueriesHandler.handleStudentAdditionToTheCourse();
                     case 6 -> courseQueriesHandler.handleStudentRemovingFromTheCourse();
+                    default -> System.out.println("Error! Wrong query");
                 }
-            } else {
-                System.out.println("Error! Wrong query");
-            }
 
             System.out.println(
                     MESSAGE_ENDING + "\n" +

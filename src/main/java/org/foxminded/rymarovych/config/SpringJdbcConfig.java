@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan("org.foxminded.rymarovych")
-@PropertySource("classpath:properties/db.properties")
+@PropertySource("classpath:db/db.properties")
 public class SpringJdbcConfig {
 
     @Autowired

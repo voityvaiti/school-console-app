@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.AbstractMap;
@@ -47,7 +46,7 @@ public class JdbcGroupDao implements GroupDao {
         }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public Optional<Group> getGroupById(int id) {
+    public Optional<Group> findGroupById(int id) {
         Group group = jdbcTemplate
                 .query(GET_GROUP_BY_ID_STATEMENT, groupRowMapper, id)
                 .stream().findAny().orElse(null);

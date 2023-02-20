@@ -1,15 +1,12 @@
 package org.foxminded.rymarovych.queryhandlers;
 
-import org.foxminded.rymarovych.config.SpringJdbcConfig;
 import org.foxminded.rymarovych.dao.JdbcCourseDao;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Scanner;
 
 public class CourseQueriesHandler {
 
-    private JdbcCourseDao jdbcCourseDao =
-            new AnnotationConfigApplicationContext(SpringJdbcConfig.class).getBean(JdbcCourseDao.class);
+    private JdbcCourseDao jdbcCourseDao;
 
     private final Scanner scanner = new Scanner(System.in);
 

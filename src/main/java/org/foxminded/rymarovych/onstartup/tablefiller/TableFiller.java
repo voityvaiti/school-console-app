@@ -2,7 +2,7 @@ package org.foxminded.rymarovych.onstartup.tablefiller;
 
 import java.util.Random;
 
-abstract class TableFiller {
+public abstract class TableFiller {
     protected final Random random = new Random();
 
     protected static final String STATEMENT_ELEM_START = "\n (";
