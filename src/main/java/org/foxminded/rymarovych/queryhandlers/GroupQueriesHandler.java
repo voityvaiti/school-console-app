@@ -1,22 +1,26 @@
 package org.foxminded.rymarovych.queryhandlers;
 
-import org.foxminded.rymarovych.dao.JdbcGroupDao;
+import org.foxminded.rymarovych.dao.impl.GroupDaoImpl;
 import org.foxminded.rymarovych.models.Group;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+@Component
 public class GroupQueriesHandler {
 
-    private JdbcGroupDao groupDao;
+    @Autowired
+    private GroupDaoImpl groupDao;
 
     private final Scanner scanner = new Scanner(System.in);
 
     protected GroupQueriesHandler() {
     }
 
-    protected GroupQueriesHandler(JdbcGroupDao groupDao) {
+    protected GroupQueriesHandler(GroupDaoImpl groupDao) {
         this.groupDao = groupDao;
     }
 

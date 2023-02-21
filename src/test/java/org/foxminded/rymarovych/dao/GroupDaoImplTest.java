@@ -1,6 +1,7 @@
 package org.foxminded.rymarovych.dao;
 
 import org.foxminded.rymarovych.dao.abstractions.GroupDao;
+import org.foxminded.rymarovych.dao.impl.GroupDaoImpl;
 import org.foxminded.rymarovych.models.Group;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
         scripts = {"/sql/CREATE_TABLES.sql", "/sql/SAMPLE_DATA.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
 )
-class JdbcGroupDaoTest {
+class GroupDaoImplTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -29,7 +30,7 @@ class JdbcGroupDaoTest {
 
     @BeforeEach
     void setUp() {
-        dao = new JdbcGroupDao(jdbcTemplate);
+        dao = new GroupDaoImpl(jdbcTemplate);
     }
 
     @Test

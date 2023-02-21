@@ -1,6 +1,6 @@
 package org.foxminded.rymarovych.queryhandlers;
 
-import org.foxminded.rymarovych.dao.JdbcGroupDao;
+import org.foxminded.rymarovych.dao.impl.GroupDaoImpl;
 import org.foxminded.rymarovych.models.Group;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 
 class GroupQueriesHandlerTest {
 
-    static JdbcGroupDao groupDao;
+    static GroupDaoImpl groupDao;
 
     static Map<Integer, Integer> groupDaoReturnedMap;
 
@@ -28,7 +28,7 @@ class GroupQueriesHandlerTest {
 
     @BeforeAll
     static void setUp() {
-        groupDao = Mockito.mock(JdbcGroupDao.class);
+        groupDao = Mockito.mock(GroupDaoImpl.class);
 
         groupDaoReturnedMap = new HashMap<>();
         groupDaoReturnedMap.put(1, 10);

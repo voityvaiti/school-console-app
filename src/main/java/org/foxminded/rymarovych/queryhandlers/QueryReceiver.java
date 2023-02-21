@@ -1,12 +1,23 @@
 package org.foxminded.rymarovych.queryhandlers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.Scanner;
 
+@Component
 public class QueryReceiver {
 
-    private final StudentQueriesHandler studentQueriesHandler = new StudentQueriesHandler();
-    private final GroupQueriesHandler groupQueriesHandler = new GroupQueriesHandler();
-    private final CourseQueriesHandler courseQueriesHandler = new CourseQueriesHandler();
+    private final StudentQueriesHandler studentQueriesHandler;
+    private final GroupQueriesHandler groupQueriesHandler;
+    private final CourseQueriesHandler courseQueriesHandler;
+
+    @Autowired
+    public QueryReceiver(StudentQueriesHandler studentQueriesHandler, GroupQueriesHandler groupQueriesHandler, CourseQueriesHandler courseQueriesHandler) {
+        this.studentQueriesHandler = studentQueriesHandler;
+        this.groupQueriesHandler = groupQueriesHandler;
+        this.courseQueriesHandler = courseQueriesHandler;
+    }
 
     private static final String MESSAGE_ENDING = "----------\n";
 

@@ -1,18 +1,22 @@
 package org.foxminded.rymarovych.queryhandlers;
 
-import org.foxminded.rymarovych.dao.JdbcCourseDao;
+import org.foxminded.rymarovych.dao.impl.CourseDaoImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
+@Component
 public class CourseQueriesHandler {
 
-    private JdbcCourseDao jdbcCourseDao;
+    @Autowired
+    private CourseDaoImpl courseDaoImpl;
 
     private final Scanner scanner = new Scanner(System.in);
 
     protected CourseQueriesHandler() {}
-    protected CourseQueriesHandler(JdbcCourseDao jdbcCourseDao) {
-        this.jdbcCourseDao = jdbcCourseDao;
+    protected CourseQueriesHandler(CourseDaoImpl courseDaoImpl) {
+        this.courseDaoImpl = courseDaoImpl;
     }
 
     protected void handleStudentAdditionToTheCourse() {
@@ -22,7 +26,7 @@ public class CourseQueriesHandler {
         System.out.println("Type course name:");
         String courseName = scanner.next();
 
-        if(jdbcCourseDao.findCourseByName(courseName).isPresent()) {
+        if(courseDaoImpl.findCourseByName(courseName).isPresent()) {
             studentAdditionToTheCourse(studentId, courseName);
 
         } else {
@@ -31,7 +35,7 @@ public class CourseQueriesHandler {
     }
 
     protected void studentAdditionToTheCourse(int studentId, String courseName) {
-        jdbcCourseDao.addStudentToTheCourse(studentId, courseName);
+        courseDaoImpl.addStudentToTheCourse(studentId, courseName);
     }
 
     protected void handleStudentRemovingFromTheCourse() {
@@ -41,7 +45,7 @@ public class CourseQueriesHandler {
         System.out.println("Type course name:");
         String courseName = scanner.next();
 
-        if(jdbcCourseDao.findCourseByName(courseName).isPresent()) {
+        if(courseDaoImpl.findCourseByName(courseName).isPresent()) {
             studentRemovingFromTheCourse(studentId, courseName);
 
         } else {
@@ -50,6 +54,6 @@ public class CourseQueriesHandler {
     }
 
     protected void studentRemovingFromTheCourse(int studentId, String courseName) {
-        jdbcCourseDao.deleteStudentFromCourse(studentId, courseName);
+        courseDaoImpl.deleteStudentFromCourse(studentId, courseName);
     }
 }

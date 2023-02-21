@@ -2,6 +2,7 @@ package org.foxminded.rymarovych.dao;
 
 import org.assertj.core.api.CollectionAssert;
 import org.foxminded.rymarovych.dao.abstractions.CourseDao;
+import org.foxminded.rymarovych.dao.impl.CourseDaoImpl;
 import org.foxminded.rymarovych.models.Course;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
         scripts = {"/sql/CREATE_TABLES.sql", "/sql/SAMPLE_DATA.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
 )
-class JdbcCourseDaoTest {
+class CourseDaoImplTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -30,7 +31,7 @@ class JdbcCourseDaoTest {
 
     @BeforeEach
     void setUp() {
-        dao = new JdbcCourseDao(jdbcTemplate);
+        dao = new CourseDaoImpl(jdbcTemplate);
     }
 
     @Test

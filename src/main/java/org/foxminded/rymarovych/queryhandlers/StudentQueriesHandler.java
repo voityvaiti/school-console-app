@@ -1,25 +1,29 @@
 package org.foxminded.rymarovych.queryhandlers;
 
-import org.foxminded.rymarovych.dao.JdbcStudentDao;
+import org.foxminded.rymarovych.dao.impl.StudentDaoImpl;
 import org.foxminded.rymarovych.models.Student;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
 
+@Component
 public class StudentQueriesHandler {
 
-    private JdbcStudentDao studentsDao;
+    @Autowired
+    private StudentDaoImpl studentsDao;
 
     private final Scanner scanner = new Scanner(System.in);
 
     protected StudentQueriesHandler() {
     }
 
-    protected StudentQueriesHandler(JdbcStudentDao studentsDao) {
+    protected StudentQueriesHandler(StudentDaoImpl studentsDao) {
         this.studentsDao = studentsDao;
     }
 
-    protected void handlePrintStudentsRelatedToCourse() {
+    public void handlePrintStudentsRelatedToCourse() {
         System.out.println("Type course name:");
         String courseName = scanner.next();
 

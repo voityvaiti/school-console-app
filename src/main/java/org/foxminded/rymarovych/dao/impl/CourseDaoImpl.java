@@ -1,4 +1,4 @@
-package org.foxminded.rymarovych.dao;
+package org.foxminded.rymarovych.dao.impl;
 
 import org.foxminded.rymarovych.dao.abstractions.CourseDao;
 import org.foxminded.rymarovych.dao.rowmapper.CourseRowMapper;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class JdbcCourseDao implements CourseDao {
+public class CourseDaoImpl implements CourseDao {
 
     public static final String FIND_COURSE_BY_ID_STATEMENT = "SELECT * FROM courses WHERE id=?;";
     public static final String FIND_COURSE_BY_NAME_STATEMENT = "SELECT * FROM courses WHERE name=?;";
@@ -27,7 +27,7 @@ public class JdbcCourseDao implements CourseDao {
     private final RowMapper<Course> courseRowMapper = new CourseRowMapper();
 
 
-    public JdbcCourseDao(JdbcTemplate jdbcTemplate) {
+    public CourseDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

@@ -1,4 +1,4 @@
-package org.foxminded.rymarovych.dao;
+package org.foxminded.rymarovych.dao.impl;
 
 import org.foxminded.rymarovych.dao.abstractions.StudentDao;
 import org.foxminded.rymarovych.dao.rowmapper.StudentRowMapper;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class JdbcStudentDao implements StudentDao {
+public class StudentDaoImpl implements StudentDao {
 
     public static final String GET_STUDENTS_BY_COURSE_NAME = """
             SELECT students.id AS id, students.group_id AS group_id,
@@ -34,7 +34,7 @@ public class JdbcStudentDao implements StudentDao {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Student> studentRowMapper = new StudentRowMapper();
 
-    public JdbcStudentDao(JdbcTemplate jdbcTemplate) {
+    public StudentDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

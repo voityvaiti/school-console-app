@@ -1,4 +1,4 @@
-package org.foxminded.rymarovych.dao;
+package org.foxminded.rymarovych.dao.impl;
 
 import org.foxminded.rymarovych.dao.abstractions.GroupDao;
 import org.foxminded.rymarovych.dao.rowmapper.GroupRowMapper;
@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-public class JdbcGroupDao implements GroupDao {
+public class GroupDaoImpl implements GroupDao {
 
     public static final String GET_GROUPS_ID_AND_AMOUNT_OF_ITS_STUDENTS_STATEMENT =
             """
@@ -29,7 +29,7 @@ public class JdbcGroupDao implements GroupDao {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Group> groupRowMapper = new GroupRowMapper();
 
-    public JdbcGroupDao(JdbcTemplate jdbcTemplate) {
+    public GroupDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
