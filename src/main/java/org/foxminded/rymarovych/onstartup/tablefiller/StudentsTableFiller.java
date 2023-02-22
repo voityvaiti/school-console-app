@@ -1,10 +1,12 @@
 package org.foxminded.rymarovych.onstartup.tablefiller;
 
 import org.foxminded.rymarovych.service.SingleQuotesWrapper;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class StudentsTableFiller extends TableFiller {
 
     @Override
@@ -13,8 +15,8 @@ public class StudentsTableFiller extends TableFiller {
 
         List<Integer> studentsInGroups = generateStudentsGroups();
 
-        final String STATEMENT_BEGINNING = "INSERT INTO students " +
-                "(id, group_id, first_name, last_name) VALUES ";
+        final String STATEMENT_BEGINNING = "DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM students LIMIT 1) THEN " +
+                "INSERT INTO students (id, group_id, first_name, last_name) VALUES ";
 
         statementBuilder.append(STATEMENT_BEGINNING);
 

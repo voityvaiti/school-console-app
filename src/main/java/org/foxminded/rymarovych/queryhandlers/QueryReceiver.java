@@ -1,22 +1,25 @@
 package org.foxminded.rymarovych.queryhandlers;
 
+import org.foxminded.rymarovych.queryhandlers.impl.CourseQueriesHandlerImpl;
+import org.foxminded.rymarovych.queryhandlers.impl.GroupQueriesHandlerImpl;
+import org.foxminded.rymarovych.queryhandlers.impl.StudentQueriesHandlerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
 
-@Component
+@Service
 public class QueryReceiver {
 
-    private final StudentQueriesHandler studentQueriesHandler;
-    private final GroupQueriesHandler groupQueriesHandler;
-    private final CourseQueriesHandler courseQueriesHandler;
+    private final StudentQueriesHandlerImpl studentQueriesHandlerImpl;
+    private final GroupQueriesHandlerImpl groupQueriesHandlerImpl;
+    private final CourseQueriesHandlerImpl courseQueriesHandlerImpl;
 
     @Autowired
-    public QueryReceiver(StudentQueriesHandler studentQueriesHandler, GroupQueriesHandler groupQueriesHandler, CourseQueriesHandler courseQueriesHandler) {
-        this.studentQueriesHandler = studentQueriesHandler;
-        this.groupQueriesHandler = groupQueriesHandler;
-        this.courseQueriesHandler = courseQueriesHandler;
+    public QueryReceiver(StudentQueriesHandlerImpl studentQueriesHandlerImpl, GroupQueriesHandlerImpl groupQueriesHandlerImpl, CourseQueriesHandlerImpl courseQueriesHandlerImpl) {
+        this.studentQueriesHandlerImpl = studentQueriesHandlerImpl;
+        this.groupQueriesHandlerImpl = groupQueriesHandlerImpl;
+        this.courseQueriesHandlerImpl = courseQueriesHandlerImpl;
     }
 
     private static final String MESSAGE_ENDING = "----------\n";
@@ -44,12 +47,12 @@ public class QueryReceiver {
         while (query != STOP_PROGRAM_COMMAND) {
 
                 switch (query) {
-                    case 1 -> groupQueriesHandler.handlePrintGroupsWithLessOrEqualsStudentsAmount();
-                    case 2 -> studentQueriesHandler.handlePrintStudentsRelatedToCourse();
-                    case 3 -> studentQueriesHandler.handleStudentAddition();
-                    case 4 -> studentQueriesHandler.handleRemoveStudentById();
-                    case 5 -> courseQueriesHandler.handleStudentAdditionToTheCourse();
-                    case 6 -> courseQueriesHandler.handleStudentRemovingFromTheCourse();
+                    case 1 -> groupQueriesHandlerImpl.handlePrintGroupsWithLessOrEqualsStudentsAmount();
+                    case 2 -> studentQueriesHandlerImpl.handlePrintStudentsRelatedToCourse();
+                    case 3 -> studentQueriesHandlerImpl.handleStudentAddition();
+                    case 4 -> studentQueriesHandlerImpl.handleRemoveStudentById();
+                    case 5 -> courseQueriesHandlerImpl.handleStudentAdditionToTheCourse();
+                    case 6 -> courseQueriesHandlerImpl.handleStudentRemovingFromTheCourse();
                     default -> System.out.println("Error! Wrong query");
                 }
 

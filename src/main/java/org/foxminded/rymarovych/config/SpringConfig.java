@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan("org.foxminded.rymarovych")
 @PropertySource("classpath:db/db.properties")
-public class SpringJdbcConfig {
+public class SpringConfig {
 
     @Autowired
     Environment env;

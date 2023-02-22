@@ -1,25 +1,23 @@
-package org.foxminded.rymarovych.queryhandlers;
+package org.foxminded.rymarovych.queryhandlers.impl;
 
-import org.foxminded.rymarovych.dao.impl.StudentDaoImpl;
+import org.foxminded.rymarovych.dao.abstractions.StudentDao;
 import org.foxminded.rymarovych.models.Student;
+import org.foxminded.rymarovych.queryhandlers.abstractions.StudentQueriesHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Scanner;
 
-@Component
-public class StudentQueriesHandler {
+@Service
+public class StudentQueriesHandlerImpl implements StudentQueriesHandler {
 
-    @Autowired
-    private StudentDaoImpl studentsDao;
+    private final StudentDao studentsDao;
 
     private final Scanner scanner = new Scanner(System.in);
 
-    protected StudentQueriesHandler() {
-    }
-
-    protected StudentQueriesHandler(StudentDaoImpl studentsDao) {
+    @Autowired
+    protected StudentQueriesHandlerImpl(StudentDao studentsDao) {
         this.studentsDao = studentsDao;
     }
 
@@ -51,7 +49,7 @@ public class StudentQueriesHandler {
         return messageBuilder.toString();
     }
 
-    protected void handleStudentAddition() {
+    public void handleStudentAddition() {
         System.out.println("Type Student's group id:");
         int groupId = scanner.nextInt();
 
@@ -70,7 +68,7 @@ public class StudentQueriesHandler {
         );
     }
 
-    protected void handleRemoveStudentById() {
+    public void handleRemoveStudentById() {
         System.out.println("Type Student's id:");
         int id = scanner.nextInt();
 

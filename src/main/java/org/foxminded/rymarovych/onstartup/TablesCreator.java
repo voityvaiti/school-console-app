@@ -1,15 +1,17 @@
 package org.foxminded.rymarovych.onstartup;
 
 import org.foxminded.rymarovych.service.database.SQLScriptRunner;
+import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
 
+@Component
 public class TablesCreator {
 
-    private static final String CREATE_TABLES_SCRIPT_PATH =
-            "src/main/resources/sql/CREATE_TABLES.sql";
-    public void createTables() {
+    private static final String CREATE_TABLES_IF_NOT_EXIST_SCRIPT_PATH =
+            "src/main/resources/sql/CREATE_TABLES_IF_NOT_EXIST.sql";
+    public void createTablesIfNotExist() {
         SQLScriptRunner sqlScriptRunner = new SQLScriptRunner();
-        sqlScriptRunner.runSqlScript(Paths.get(CREATE_TABLES_SCRIPT_PATH));
+        sqlScriptRunner.runSqlScript(Paths.get(CREATE_TABLES_IF_NOT_EXIST_SCRIPT_PATH));
     }
 }

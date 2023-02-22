@@ -1,30 +1,28 @@
-package org.foxminded.rymarovych.queryhandlers;
+package org.foxminded.rymarovych.queryhandlers.impl;
 
-import org.foxminded.rymarovych.dao.impl.GroupDaoImpl;
+import org.foxminded.rymarovych.dao.abstractions.GroupDao;
 import org.foxminded.rymarovych.models.Group;
+import org.foxminded.rymarovych.queryhandlers.abstractions.GroupQueriesHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-@Component
-public class GroupQueriesHandler {
+@Service
+public class GroupQueriesHandlerImpl implements GroupQueriesHandler {
 
-    @Autowired
-    private GroupDaoImpl groupDao;
+    private final GroupDao groupDao;
 
     private final Scanner scanner = new Scanner(System.in);
 
-    protected GroupQueriesHandler() {
-    }
-
-    protected GroupQueriesHandler(GroupDaoImpl groupDao) {
+    @Autowired
+    protected GroupQueriesHandlerImpl(GroupDao groupDao) {
         this.groupDao = groupDao;
     }
 
-    protected void handlePrintGroupsWithLessOrEqualsStudentsAmount() {
+    public void handlePrintGroupsWithLessOrEqualsStudentsAmount() {
 
         System.out.println("Type >=student's amount:");
         int requestedStudentsAmount = scanner.nextInt();

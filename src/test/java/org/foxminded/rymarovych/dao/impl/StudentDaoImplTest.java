@@ -1,8 +1,7 @@
-package org.foxminded.rymarovych.dao;
+package org.foxminded.rymarovych.dao.impl;
 
 import org.assertj.core.api.CollectionAssert;
 import org.foxminded.rymarovych.dao.abstractions.StudentDao;
-import org.foxminded.rymarovych.dao.impl.StudentDaoImpl;
 import org.foxminded.rymarovych.models.Student;
 import org.foxminded.rymarovych.onstartup.tablefiller.TableFiller;
 import org.junit.jupiter.api.BeforeEach;
