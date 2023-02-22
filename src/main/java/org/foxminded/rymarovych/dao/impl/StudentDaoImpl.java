@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -29,7 +30,9 @@ public class StudentDaoImpl implements StudentDao {
             "INSERT INTO students (id, group_id, first_name, last_name) VALUES (?, ?, ?, ?)";
     public static final String DELETE_STUDENT_BY_ID_STATEMENT = "DELETE FROM students WHERE id=?";
 
-    private static int currentStudentMaxId = TableFiller.STUDENTS_AMOUNT;
+    public static final String COUNT_STUDENTS = "SELECT COUNT(id) AS amount from students";
+
+    private int currentStudentMaxId = countStudents();
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Student> studentRowMapper = new StudentRowMapper();
@@ -61,5 +64,11 @@ public class StudentDaoImpl implements StudentDao {
 
     public void deleteStudent(int id) {
         jdbcTemplate.update(DELETE_STUDENT_BY_ID_STATEMENT, id);
+    }
+
+    public int countStudents() {
+        Integer amount =  jdbcTemplate.queryForObject(COUNT_STUDENTS, Integer.class);
+
+        return Objects.requireNonNullElse(amount, -1);
     }
 }

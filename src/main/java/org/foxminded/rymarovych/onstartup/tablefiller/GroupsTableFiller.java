@@ -13,8 +13,10 @@ public class GroupsTableFiller extends TableFiller {
 
         StringBuilder statementBuilder = new StringBuilder();
 
-        final String STATEMENT_BEGINNING = "DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM groups LIMIT 1) THEN " +
-                "INSERT INTO groups (id, name) VALUES ";
+        final String STATEMENT_BEGINNING = """
+                DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM groups LIMIT 1) THEN
+                INSERT INTO groups (id, name) VALUES
+                """;
 
         statementBuilder.append(STATEMENT_BEGINNING);
 

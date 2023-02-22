@@ -15,12 +15,18 @@ public class CourseDaoImpl implements CourseDao {
 
     public static final String FIND_COURSE_BY_ID_STATEMENT = "SELECT * FROM courses WHERE id=?;";
     public static final String FIND_COURSE_BY_NAME_STATEMENT = "SELECT * FROM courses WHERE name=?;";
-    public static final String GET_COURSES_BY_STUDENT_ID = "SELECT courses.id, courses.name, courses.description FROM courses " +
-            "JOIN students_courses ON courses.id = course_id WHERE student_id = ?";
-    public static final String ADD_STUDENT_COURSE_STATEMENT = "INSERT INTO students_courses (student_id, course_id) VALUES (?," +
-                    "(SELECT id FROM courses WHERE name = ?));";
-    public static final String DELETE_STUDENT_COURSE_BY_ID_STATEMENT = "DELETE FROM students_courses WHERE student_id = ? " +
-            "AND course_id = (SELECT id FROM courses WHERE name = ?);";
+    public static final String GET_COURSES_BY_STUDENT_ID = """
+            SELECT courses.id, courses.name, courses.description FROM courses 
+            JOIN students_courses ON courses.id = course_id WHERE student_id = ?;
+            """;
+    public static final String ADD_STUDENT_COURSE_STATEMENT = """
+            INSERT INTO students_courses (student_id, course_id) VALUES (?,
+            (SELECT id FROM courses WHERE name = ?));
+            """;
+    public static final String DELETE_STUDENT_COURSE_BY_ID_STATEMENT = """
+            DELETE FROM students_courses WHERE student_id = ?
+            AND course_id = (SELECT id FROM courses WHERE name = ?);
+            """;
 
 
     private final JdbcTemplate jdbcTemplate;
