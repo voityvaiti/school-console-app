@@ -8,31 +8,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 @Service
 public class GroupServiceImpl implements GroupService {
 
     private final GroupDao groupDao;
 
-    private final Scanner scanner = new Scanner(System.in);
-
     @Autowired
     protected GroupServiceImpl(GroupDao groupDao) {
         this.groupDao = groupDao;
     }
 
-    public void handlePrintGroupsWithLessOrEqualsStudentsAmount() {
-
-        System.out.println("Type >=student's amount:");
-        int requestedStudentsAmount = scanner.nextInt();
-
-        System.out.print(
-                getMessageOfGroupsWithLessOrEqualsStudentsAmount(requestedStudentsAmount)
-        );
-    }
-
-    protected String getMessageOfGroupsWithLessOrEqualsStudentsAmount(int requestedStudentsAmount) {
+    public String getMessageOfGroupsWithLessOrEqualsStudentsAmount(int requestedStudentsAmount) {
 
         StringBuilder messageBuilder = new StringBuilder();
 

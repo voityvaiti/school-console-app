@@ -2,10 +2,10 @@ package org.foxminded.rymarovych.service.abstractions;
 
 public interface StudentService {
 
-    void handlePrintStudentsRelatedToCourse();
+    String printStudentsRelatedToCourse(String courseName);
 
-    void handleStudentAddition();
+    void studentAddition(int groupId, String firstName, String lastName);
 
-    void handleRemoveStudentById();
+    void removeStudentById(int id);
 
 }

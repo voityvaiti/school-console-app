@@ -1,9 +1,9 @@
 package org.foxminded.rymarovych;
 
 import org.foxminded.rymarovych.config.SpringConfig;
+import org.foxminded.rymarovych.menu.abstractions.MainMenu;
 import org.foxminded.rymarovych.onstartup.TablesCreator;
 import org.foxminded.rymarovych.onstartup.tablefiller.TablesFiller;
-import org.foxminded.rymarovych.service.QueryReceiver;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -14,6 +14,7 @@ public class Main {
 
         context.getBean(TablesCreator.class).createTablesIfNotExist();
         context.getBean(TablesFiller.class).fillTablesIfEmpty();
-        context.getBean(QueryReceiver.class).receiveAndHandleQueries();
+
+        context.getBean(MainMenu.class).runMainMenu();
     }
 }

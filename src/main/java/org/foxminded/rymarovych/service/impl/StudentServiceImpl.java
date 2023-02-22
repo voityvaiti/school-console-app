@@ -7,30 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Scanner;
 
 @Service
 public class StudentServiceImpl implements StudentService {
 
     private final StudentDao studentsDao;
 
-    private final Scanner scanner = new Scanner(System.in);
-
     @Autowired
     protected StudentServiceImpl(StudentDao studentsDao) {
         this.studentsDao = studentsDao;
     }
 
-    public void handlePrintStudentsRelatedToCourse() {
-        System.out.println("Type course name:");
-        String courseName = scanner.next();
-
-        System.out.print(
-                printStudentsRelatedToCourse(courseName)
-        );
-    }
-
-    protected String printStudentsRelatedToCourse(String courseName) {
+    public String printStudentsRelatedToCourse(String courseName) {
 
         StringBuilder messageBuilder = new StringBuilder();
 
@@ -49,33 +37,13 @@ public class StudentServiceImpl implements StudentService {
         return messageBuilder.toString();
     }
 
-    public void handleStudentAddition() {
-        System.out.println("Type Student's group id:");
-        int groupId = scanner.nextInt();
-
-        System.out.println("Type Student's first name:");
-        String firstName = scanner.next();
-
-        System.out.println("Type Student's last name:");
-        String lastName = scanner.next();
-
-        studentAddition(groupId, firstName, lastName);
-    }
-
-    protected void studentAddition(int groupId, String firstName, String lastName) {
+    public void studentAddition(int groupId, String firstName, String lastName) {
         studentsDao.addStudent(
                 new Student(groupId, firstName, lastName)
         );
     }
 
-    public void handleRemoveStudentById() {
-        System.out.println("Type Student's id:");
-        int id = scanner.nextInt();
-
-        removeStudentById(id);
-    }
-
-    protected void removeStudentById(int id) {
+    public void removeStudentById(int id) {
         studentsDao.deleteStudent(id);
     }
 }
