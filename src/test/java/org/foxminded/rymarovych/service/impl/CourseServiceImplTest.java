@@ -1,4 +1,4 @@
-package org.foxminded.rymarovych.queryhandlers.impl;
+package org.foxminded.rymarovych.service.impl;
 
 import org.foxminded.rymarovych.dao.abstractions.CourseDao;
 import org.foxminded.rymarovych.models.Course;
@@ -15,14 +15,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.never;
 
-@SpringBootTest(classes = {CourseQueriesHandlerImpl.class})
-class CourseQueriesHandlerImplTest {
+@SpringBootTest(classes = {CourseServiceImpl.class})
+class CourseServiceImplTest {
 
     @MockBean
     CourseDao courseDao;
 
     @Autowired
-    CourseQueriesHandlerImpl courseQueriesHandler;
+    CourseServiceImpl courseService;
 
     @Test
     void shouldAddStudentToTheCourseIfCourseExists() {
@@ -32,7 +32,7 @@ class CourseQueriesHandlerImplTest {
 
         when(courseDao.findCourseByName(anyString())).thenReturn(Optional.of(new Course()));
 
-        courseQueriesHandler.studentAdditionToTheCourse(studentId, courseName);
+        courseService.studentAdditionToTheCourse(studentId, courseName);
 
         verify(courseDao).addStudentToTheCourse(anyInt(), anyString());
     }
@@ -45,7 +45,7 @@ class CourseQueriesHandlerImplTest {
 
         when(courseDao.findCourseByName(anyString())).thenReturn(Optional.empty());
 
-        courseQueriesHandler.studentAdditionToTheCourse(studentId, courseName);
+        courseService.studentAdditionToTheCourse(studentId, courseName);
 
         verify(courseDao, never()).addStudentToTheCourse(anyInt(), anyString());
     }
@@ -58,7 +58,7 @@ class CourseQueriesHandlerImplTest {
 
         when(courseDao.findCourseByName(anyString())).thenReturn(Optional.of(new Course()));
 
-        courseQueriesHandler.studentRemovingFromTheCourse(studentId, courseName);
+        courseService.studentRemovingFromTheCourse(studentId, courseName);
 
         verify(courseDao).deleteStudentFromCourse(anyInt(), anyString());
     }
@@ -71,7 +71,7 @@ class CourseQueriesHandlerImplTest {
 
         when(courseDao.findCourseByName(anyString())).thenReturn(Optional.empty());
 
-        courseQueriesHandler.studentRemovingFromTheCourse(studentId, courseName);
+        courseService.studentRemovingFromTheCourse(studentId, courseName);
 
         verify(courseDao, never()).deleteStudentFromCourse(anyInt(), anyString());
     }

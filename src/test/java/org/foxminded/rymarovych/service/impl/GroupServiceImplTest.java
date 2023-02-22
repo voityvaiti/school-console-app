@@ -1,4 +1,4 @@
-package org.foxminded.rymarovych.queryhandlers.impl;
+package org.foxminded.rymarovych.service.impl;
 
 import org.foxminded.rymarovych.dao.abstractions.GroupDao;
 import org.foxminded.rymarovych.models.Group;
@@ -15,14 +15,14 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = {GroupQueriesHandlerImpl.class})
-class GroupQueriesHandlerImplTest {
+@SpringBootTest(classes = {GroupServiceImpl.class})
+class GroupServiceImplTest {
 
     @MockBean
     GroupDao groupDao;
 
     @Autowired
-    GroupQueriesHandlerImpl groupQueriesHandler;
+    GroupServiceImpl groupService;
 
     static Map<Integer, Integer> groupDaoReturnedMap;
 
@@ -63,7 +63,7 @@ class GroupQueriesHandlerImplTest {
         String expected = group1.toString() + NEWLINE +
                 group2.toString() + NEWLINE;
 
-        assertEquals(expected, new GroupQueriesHandlerImpl(groupDao).
+        assertEquals(expected, groupService.
                 getMessageOfGroupsWithLessOrEqualsStudentsAmount(requestedStudentsAmount));
 
     }
@@ -78,7 +78,7 @@ class GroupQueriesHandlerImplTest {
                 group3.toString() + NEWLINE +
                 group4.toString() + NEWLINE;
 
-        assertEquals(expected, new GroupQueriesHandlerImpl(groupDao).
+        assertEquals(expected, groupService.
                 getMessageOfGroupsWithLessOrEqualsStudentsAmount(requestedStudentsAmount));
 
     }
@@ -90,7 +90,7 @@ class GroupQueriesHandlerImplTest {
 
         String expected = "No such groups\n";
 
-        assertEquals(expected, new GroupQueriesHandlerImpl(groupDao).
+        assertEquals(expected, groupService.
                 getMessageOfGroupsWithLessOrEqualsStudentsAmount(requestedStudentsAmount));
 
     }

@@ -1,8 +1,8 @@
-package org.foxminded.rymarovych.queryhandlers;
+package org.foxminded.rymarovych.service;
 
-import org.foxminded.rymarovych.queryhandlers.impl.CourseQueriesHandlerImpl;
-import org.foxminded.rymarovych.queryhandlers.impl.GroupQueriesHandlerImpl;
-import org.foxminded.rymarovych.queryhandlers.impl.StudentQueriesHandlerImpl;
+import org.foxminded.rymarovych.service.impl.CourseServiceImpl;
+import org.foxminded.rymarovych.service.impl.GroupServiceImpl;
+import org.foxminded.rymarovych.service.impl.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +11,15 @@ import java.util.Scanner;
 @Service
 public class QueryReceiver {
 
-    private final StudentQueriesHandlerImpl studentQueriesHandlerImpl;
-    private final GroupQueriesHandlerImpl groupQueriesHandlerImpl;
-    private final CourseQueriesHandlerImpl courseQueriesHandlerImpl;
+    private final StudentServiceImpl studentServiceImpl;
+    private final GroupServiceImpl groupServiceImpl;
+    private final CourseServiceImpl courseServiceImpl;
 
     @Autowired
-    public QueryReceiver(StudentQueriesHandlerImpl studentQueriesHandlerImpl, GroupQueriesHandlerImpl groupQueriesHandlerImpl, CourseQueriesHandlerImpl courseQueriesHandlerImpl) {
-        this.studentQueriesHandlerImpl = studentQueriesHandlerImpl;
-        this.groupQueriesHandlerImpl = groupQueriesHandlerImpl;
-        this.courseQueriesHandlerImpl = courseQueriesHandlerImpl;
+    public QueryReceiver(StudentServiceImpl studentServiceImpl, GroupServiceImpl groupServiceImpl, CourseServiceImpl courseServiceImpl) {
+        this.studentServiceImpl = studentServiceImpl;
+        this.groupServiceImpl = groupServiceImpl;
+        this.courseServiceImpl = courseServiceImpl;
     }
 
     private static final String MESSAGE_ENDING = "----------\n";
@@ -47,12 +47,12 @@ public class QueryReceiver {
         while (query != STOP_PROGRAM_COMMAND) {
 
                 switch (query) {
-                    case 1 -> groupQueriesHandlerImpl.handlePrintGroupsWithLessOrEqualsStudentsAmount();
-                    case 2 -> studentQueriesHandlerImpl.handlePrintStudentsRelatedToCourse();
-                    case 3 -> studentQueriesHandlerImpl.handleStudentAddition();
-                    case 4 -> studentQueriesHandlerImpl.handleRemoveStudentById();
-                    case 5 -> courseQueriesHandlerImpl.handleStudentAdditionToTheCourse();
-                    case 6 -> courseQueriesHandlerImpl.handleStudentRemovingFromTheCourse();
+                    case 1 -> groupServiceImpl.handlePrintGroupsWithLessOrEqualsStudentsAmount();
+                    case 2 -> studentServiceImpl.handlePrintStudentsRelatedToCourse();
+                    case 3 -> studentServiceImpl.handleStudentAddition();
+                    case 4 -> studentServiceImpl.handleRemoveStudentById();
+                    case 5 -> courseServiceImpl.handleStudentAdditionToTheCourse();
+                    case 6 -> courseServiceImpl.handleStudentRemovingFromTheCourse();
                     default -> System.out.println("Error! Wrong query");
                 }
 

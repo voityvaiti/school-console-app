@@ -1,6 +1,6 @@
 package org.foxminded.rymarovych.onstartup;
 
-import org.foxminded.rymarovych.service.database.SQLScriptRunner;
+import org.foxminded.rymarovych.utility.database.SQLScriptRunner;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;

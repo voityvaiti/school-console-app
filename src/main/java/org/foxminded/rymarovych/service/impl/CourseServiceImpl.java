@@ -1,21 +1,21 @@
-package org.foxminded.rymarovych.queryhandlers.impl;
+package org.foxminded.rymarovych.service.impl;
 
 import org.foxminded.rymarovych.dao.abstractions.CourseDao;
-import org.foxminded.rymarovych.queryhandlers.abstractions.CourseQueriesHandler;
+import org.foxminded.rymarovych.service.abstractions.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
 
 @Service
-public class CourseQueriesHandlerImpl implements CourseQueriesHandler {
+public class CourseServiceImpl implements CourseService {
 
     private final CourseDao courseDao;
 
     private final Scanner scanner = new Scanner(System.in);
 
     @Autowired
-    protected CourseQueriesHandlerImpl(CourseDao courseDao) {
+    protected CourseServiceImpl(CourseDao courseDao) {
         this.courseDao = courseDao;
     }
 

@@ -1,4 +1,4 @@
-package org.foxminded.rymarovych.service;
+package org.foxminded.rymarovych.utility;
 
 public class SingleQuotesWrapper {
     private SingleQuotesWrapper() {}

@@ -1,8 +1,8 @@
-package org.foxminded.rymarovych.queryhandlers.impl;
+package org.foxminded.rymarovych.service.impl;
 
 import org.foxminded.rymarovych.dao.abstractions.GroupDao;
 import org.foxminded.rymarovych.models.Group;
-import org.foxminded.rymarovych.queryhandlers.abstractions.GroupQueriesHandler;
+import org.foxminded.rymarovych.service.abstractions.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +11,14 @@ import java.util.Map;
 import java.util.Scanner;
 
 @Service
-public class GroupQueriesHandlerImpl implements GroupQueriesHandler {
+public class GroupServiceImpl implements GroupService {
 
     private final GroupDao groupDao;
 
     private final Scanner scanner = new Scanner(System.in);
 
     @Autowired
-    protected GroupQueriesHandlerImpl(GroupDao groupDao) {
+    protected GroupServiceImpl(GroupDao groupDao) {
         this.groupDao = groupDao;
     }
 

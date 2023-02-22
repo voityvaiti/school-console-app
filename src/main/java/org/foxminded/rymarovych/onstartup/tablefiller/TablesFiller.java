@@ -1,6 +1,6 @@
 package org.foxminded.rymarovych.onstartup.tablefiller;
 
-import org.foxminded.rymarovych.service.database.DatabaseConnector;
+import org.foxminded.rymarovych.utility.database.DatabaseConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

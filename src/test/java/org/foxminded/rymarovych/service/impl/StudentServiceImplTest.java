@@ -1,4 +1,4 @@
-package org.foxminded.rymarovych.queryhandlers.impl;
+package org.foxminded.rymarovych.service.impl;
 
 import org.foxminded.rymarovych.dao.abstractions.StudentDao;
 import org.foxminded.rymarovych.models.Student;
@@ -16,14 +16,14 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 
-@SpringBootTest(classes = {StudentQueriesHandlerImpl.class})
-class StudentQueriesHandlerImplTest {
+@SpringBootTest(classes = {StudentServiceImpl.class})
+class StudentServiceImplTest {
 
     @MockBean
     StudentDao studentDao;
 
     @Autowired
-    StudentQueriesHandlerImpl studentQueriesHandler;
+    StudentServiceImpl studentService;
 
     @Test
     void shouldReturnMessageWithStudents_ifStudentsWereFound() {
@@ -44,7 +44,7 @@ class StudentQueriesHandlerImplTest {
                 Student{id=2, groupId=5, firstName='Mary', lastName='Strode'}
                 """;
 
-        Assertions.assertEquals(expected, new StudentQueriesHandlerImpl(studentDao).
+        Assertions.assertEquals(expected, studentService.
                 printStudentsRelatedToCourse(anyString()));
     }
 
@@ -57,7 +57,7 @@ class StudentQueriesHandlerImplTest {
 
         String expected = "No students related to this course or no such course\n";
 
-        assertEquals(expected, new StudentQueriesHandlerImpl(studentDao).
+        assertEquals(expected, studentService.
                 printStudentsRelatedToCourse(anyString()));
     }
 
@@ -71,7 +71,7 @@ class StudentQueriesHandlerImplTest {
                 groupId, firstName, lastName
         );
 
-        studentQueriesHandler.studentAddition(
+        studentService.studentAddition(
                 groupId, firstName, lastName
         );
 
@@ -83,7 +83,7 @@ class StudentQueriesHandlerImplTest {
 
         int studentId = 21;
 
-        studentQueriesHandler.removeStudentById(studentId);
+        studentService.removeStudentById(studentId);
 
         verify(studentDao).deleteStudent(studentId);
     }

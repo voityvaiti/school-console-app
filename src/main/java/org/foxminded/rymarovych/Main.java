@@ -3,7 +3,7 @@ package org.foxminded.rymarovych;
 import org.foxminded.rymarovych.config.SpringConfig;
 import org.foxminded.rymarovych.onstartup.TablesCreator;
 import org.foxminded.rymarovych.onstartup.tablefiller.TablesFiller;
-import org.foxminded.rymarovych.queryhandlers.QueryReceiver;
+import org.foxminded.rymarovych.service.QueryReceiver;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

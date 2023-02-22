@@ -1,6 +1,6 @@
 package org.foxminded.rymarovych.onstartup.tablefiller;
 
-import org.foxminded.rymarovych.service.SingleQuotesWrapper;
+import org.foxminded.rymarovych.utility.SingleQuotesWrapper;
 import org.springframework.stereotype.Component;
 
 @Component

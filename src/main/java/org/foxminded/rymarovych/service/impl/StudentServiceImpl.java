@@ -1,8 +1,8 @@
-package org.foxminded.rymarovych.queryhandlers.impl;
+package org.foxminded.rymarovych.service.impl;
 
 import org.foxminded.rymarovych.dao.abstractions.StudentDao;
 import org.foxminded.rymarovych.models.Student;
-import org.foxminded.rymarovych.queryhandlers.abstractions.StudentQueriesHandler;
+import org.foxminded.rymarovych.service.abstractions.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.Scanner;
 
 @Service
-public class StudentQueriesHandlerImpl implements StudentQueriesHandler {
+public class StudentServiceImpl implements StudentService {
 
     private final StudentDao studentsDao;
 
     private final Scanner scanner = new Scanner(System.in);
 
     @Autowired
-    protected StudentQueriesHandlerImpl(StudentDao studentsDao) {
+    protected StudentServiceImpl(StudentDao studentsDao) {
         this.studentsDao = studentsDao;
     }
 

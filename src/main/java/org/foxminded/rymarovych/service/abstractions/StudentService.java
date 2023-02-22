@@ -1,6 +1,6 @@
-package org.foxminded.rymarovych.queryhandlers.abstractions;
+package org.foxminded.rymarovych.service.abstractions;
 
-public interface StudentQueriesHandler {
+public interface StudentService {
 
     void handlePrintStudentsRelatedToCourse();
 
