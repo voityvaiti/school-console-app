@@ -1,19 +1,18 @@
 package org.foxminded.rymarovych;
 
-import org.foxminded.rymarovych.config.SpringConfig;
 import org.foxminded.rymarovych.menu.abstractions.MainMenu;
-import org.foxminded.rymarovych.onstartup.TablesCreator;
-import org.foxminded.rymarovych.onstartup.tablefiller.TablesFiller;
+import org.foxminded.rymarovych.onstartup.StartupPresetsExecutor;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class Main {
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
 
-        context.getBean(TablesCreator.class).createTablesIfNotExist();
-        context.getBean(TablesFiller.class).fillTablesIfEmpty();
+        ApplicationContext context = SpringApplication.run(Main.class, args);
+
+        context.getBean(StartupPresetsExecutor.class).runPresets();
 
         context.getBean(MainMenu.class).runMainMenu();
     }

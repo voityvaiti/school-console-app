@@ -3,7 +3,6 @@ package org.foxminded.rymarovych.dao.impl;
 import org.assertj.core.api.CollectionAssert;
 import org.foxminded.rymarovych.dao.abstractions.StudentDao;
 import org.foxminded.rymarovych.models.Student;
-import org.foxminded.rymarovych.onstartup.tablefiller.TableFiller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,15 +60,18 @@ class StudentDaoImplTest {
 
     @Test
     void addStudent() {
-        final int STUDENT_ID = TableFiller.STUDENTS_AMOUNT + 1;
+        final int STUDENT_ID = dao.getMaxId() + 1;
 
-        Student student = new Student(
+        Student studentToAdd = new Student(
                 STUDENT_ID,5, "Michael", "Stevenson"
         );
 
-        dao.addStudent(student);
+        dao.addStudent(studentToAdd);
 
-        assertEquals(student, dao.findStudentById(STUDENT_ID).get());
+        Optional<Student> optionalActualStudent = dao.findStudentById(STUDENT_ID);
+
+        assertTrue(optionalActualStudent.isPresent());
+        assertEquals(studentToAdd, optionalActualStudent.get());
     }
 
     @Test

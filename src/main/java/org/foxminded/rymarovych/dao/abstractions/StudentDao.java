@@ -14,4 +14,7 @@ public interface StudentDao {
     void addStudent(Student student);
 
     void deleteStudent(int id);
+
+    int getMaxId();
+
 }

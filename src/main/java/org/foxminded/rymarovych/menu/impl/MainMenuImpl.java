@@ -4,6 +4,8 @@ import org.foxminded.rymarovych.menu.abstractions.CourseMenu;
 import org.foxminded.rymarovych.menu.abstractions.GroupMenu;
 import org.foxminded.rymarovych.menu.abstractions.MainMenu;
 import org.foxminded.rymarovych.menu.abstractions.StudentMenu;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,9 @@ public class MainMenuImpl implements MainMenu {
     private final GroupMenu groupMenu;
     private final CourseMenu courseMenu;
 
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Logger logger = LoggerFactory.getLogger(MainMenuImpl.class);
+
     @Autowired
     public MainMenuImpl(StudentMenu studentMenu, GroupMenu groupMenu, CourseMenu courseMenu) {
         this.studentMenu = studentMenu;
@@ -26,7 +31,7 @@ public class MainMenuImpl implements MainMenu {
     private static final String MESSAGE_ENDING = "----------\n";
 
     public void runMainMenu() {
-        Scanner scanner = new Scanner(System.in);
+        logger.info("Main menu launched");
 
         final int STOP_PROGRAM_COMMAND = 0;
 
@@ -43,7 +48,11 @@ public class MainMenuImpl implements MainMenu {
         System.out.println(menu);
         System.out.println("To stop program type " + STOP_PROGRAM_COMMAND);
 
+        logger.debug("Asking for query...");
+
         int query = scanner.nextInt();
+
+        logger.debug("Query received");
 
         while (query != STOP_PROGRAM_COMMAND) {
 
@@ -57,14 +66,21 @@ public class MainMenuImpl implements MainMenu {
                 default -> System.out.println("Error! Wrong query");
             }
 
+            logger.debug("Query handled");
+
             System.out.println(
                     MESSAGE_ENDING + "\n" +
                             menu + "\n" +
                             "To stop program type " + STOP_PROGRAM_COMMAND + "\n"
             );
 
+            logger.debug("Asking for query...");
+
             query = scanner.nextInt();
+
+            logger.debug("Query received");
         }
 
+        logger.info("Main menu finished its work");
     }
 }

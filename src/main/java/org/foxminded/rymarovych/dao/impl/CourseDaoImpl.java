@@ -3,6 +3,8 @@ package org.foxminded.rymarovych.dao.impl;
 import org.foxminded.rymarovych.dao.abstractions.CourseDao;
 import org.foxminded.rymarovych.dao.rowmapper.CourseRowMapper;
 import org.foxminded.rymarovych.models.Course;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -29,6 +31,7 @@ public class CourseDaoImpl implements CourseDao {
             """;
 
 
+    private static final Logger logger = LoggerFactory.getLogger(CourseDaoImpl.class);
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Course> courseRowMapper = new CourseRowMapper();
 
@@ -40,26 +43,35 @@ public class CourseDaoImpl implements CourseDao {
 
     @Override
     public Optional<Course> findCourseById(int id) {
+        logger.debug("Attempt to find course by ID");
+
         Course course = jdbcTemplate
                 .query(FIND_COURSE_BY_ID_STATEMENT, courseRowMapper, id)
                 .stream().findAny().orElse(null);
 
         if (course == null) {
+            logger.warn("Course not found by ID");
             return Optional.empty();
+
         } else {
+            logger.debug("Found course by ID");
             return Optional.of(course);
         }
     }
 
     @Override
     public Optional<Course> findCourseByName(String name) {
+        logger.debug("Attempt to find course by name");
+
         Course course = jdbcTemplate
                 .query(FIND_COURSE_BY_NAME_STATEMENT, courseRowMapper, name)
                 .stream().findAny().orElse(null);
 
         if (course == null) {
+            logger.warn("Course not found by course name");
             return Optional.empty();
         } else {
+            logger.debug("Found course by course name");
             return Optional.of(course);
         }
 
@@ -67,16 +79,26 @@ public class CourseDaoImpl implements CourseDao {
 
     @Override
     public List<Course> getStudentCourses(int studentId) {
+        logger.debug("Attempt to get list of student courses");
+
         return jdbcTemplate.query(GET_COURSES_BY_STUDENT_ID, courseRowMapper, studentId);
     }
 
     @Override
     public void addStudentToTheCourse(int studentId, String courseName) {
+        logger.debug("Attempt to add student to the course");
+
         jdbcTemplate.update(ADD_STUDENT_COURSE_STATEMENT, studentId, courseName);
+
+        logger.info("Student addition to the course statement executed");
     }
 
     @Override
     public void deleteStudentFromCourse(int studentId, String courseName) {
+        logger.debug("Attempt to delete student from the course");
+
         jdbcTemplate.update(DELETE_STUDENT_COURSE_BY_ID_STATEMENT, studentId, courseName);
+
+        logger.info("Student deletion from the course statement executed");
     }
 }
