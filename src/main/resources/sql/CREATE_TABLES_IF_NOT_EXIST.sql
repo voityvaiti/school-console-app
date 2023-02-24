@@ -1,18 +1,10 @@
-DROP TABLE IF EXISTS students_courses;
-
-
-DROP TABLE IF EXISTS groups;
-
-CREATE TABLE groups
+CREATE TABLE IF NOT EXISTS groups
 (
     id   INT PRIMARY KEY,
     name VARCHAR(5)
 );
 
-
-DROP TABLE IF EXISTS students;
-
-CREATE TABLE students
+CREATE TABLE IF NOT EXISTS students
 (
     id INT PRIMARY KEY,
     group_id   INT,
@@ -20,17 +12,14 @@ CREATE TABLE students
     last_name  VARCHAR(20)
 );
 
-
-DROP TABLE IF EXISTS courses;
-
-CREATE TABLE courses
+CREATE TABLE IF NOT EXISTS courses
 (
     id          INT PRIMARY KEY,
     name        VARCHAR(40),
     description VARCHAR(255)
 );
 
-CREATE TABLE students_courses
+CREATE TABLE IF NOT EXISTS students_courses
 (
     student_id int,
     course_id  int

@@ -7,7 +7,7 @@ public abstract class TableFiller {
 
     protected static final String STATEMENT_ELEM_START = "\n (";
     protected static final String STATEMENT_ELEM_END = "),";
-    protected static final String STATEMENT_ENDING = ";";
+    protected static final String STATEMENT_ENDING = "; END IF; END $$;";
     protected static final String STATEMENT_GAP = ", ";
     public static final int STUDENTS_AMOUNT = 200;
     public static final int COURSES_AMOUNT = 10;

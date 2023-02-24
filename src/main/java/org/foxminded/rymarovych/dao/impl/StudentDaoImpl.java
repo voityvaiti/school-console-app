@@ -3,7 +3,8 @@ package org.foxminded.rymarovych.dao.impl;
 import org.foxminded.rymarovych.dao.abstractions.StudentDao;
 import org.foxminded.rymarovych.dao.rowmapper.StudentRowMapper;
 import org.foxminded.rymarovych.models.Student;
-import org.foxminded.rymarovych.onstartup.tablefiller.TableFiller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -29,37 +30,74 @@ public class StudentDaoImpl implements StudentDao {
             "INSERT INTO students (id, group_id, first_name, last_name) VALUES (?, ?, ?, ?)";
     public static final String DELETE_STUDENT_BY_ID_STATEMENT = "DELETE FROM students WHERE id=?";
 
-    private static int currentStudentMaxId = TableFiller.STUDENTS_AMOUNT;
+    public static final String GET_MAX_ID = "SELECT MAX(id) AS max_id from students";
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentDaoImpl.class);
+
+    private int currentStudentMaxId;
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Student> studentRowMapper = new StudentRowMapper();
 
     public StudentDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.currentStudentMaxId = getMaxId();
     }
 
 
     public List<Student> getStudentsByCourseName(String courseName) {
-        return jdbcTemplate.query(GET_STUDENTS_BY_COURSE_NAME, studentRowMapper, courseName);
+        LOGGER.debug("Attempt to get list of students by course name: {}", courseName);
+        List<Student> gottenStudentsByCourseName =
+                jdbcTemplate.query(GET_STUDENTS_BY_COURSE_NAME, studentRowMapper, courseName);
+
+        LOGGER.debug("List of students by course (name: {}) received. Size: {}", courseName, gottenStudentsByCourseName.size());
+        return gottenStudentsByCourseName;
     }
 
     public Optional<Student> findStudentById(int id) {
+        LOGGER.debug("Attempt to find student by ID: {}", id);
+
         Student student = jdbcTemplate.query(GET_STUDENT_BY_ID, studentRowMapper, id)
                 .stream().findAny().orElse(null);
 
         if (student == null) {
+            LOGGER.warn("Student not found by ID: {}", id);
             return Optional.empty();
         } else {
+            LOGGER.debug("Found student ({}) by ID: {}", student, id);
             return Optional.of(student);
         }
     }
 
     public void addStudent(Student student) {
+        LOGGER.debug("Attempt to add student: ({})", student);
+
         jdbcTemplate.update(ADD_STUDENT_STATEMENT, ++currentStudentMaxId, student.getGroupId(),
                 student.getFirstName(), student.getLastName());
+
+        LOGGER.info("Student ({}) addition statement executed", student);
     }
 
     public void deleteStudent(int id) {
+        LOGGER.debug("Attempt to delete student (ID: {})", id);
+
         jdbcTemplate.update(DELETE_STUDENT_BY_ID_STATEMENT, id);
+
+        LOGGER.info("Student (ID: {}) deletion statement executed", id);
+    }
+
+    public int getMaxId() {
+        LOGGER.debug("Received query for students max ID");
+
+        Integer amount = jdbcTemplate.queryForObject(GET_MAX_ID, Integer.class);
+
+        if (amount == null) {
+            LOGGER.warn("Max students ID not found");
+            return -1;
+
+        } else {
+            LOGGER.debug("Max students ID found: {}. Returning result", amount);
+            return amount;
+        }
     }
 }

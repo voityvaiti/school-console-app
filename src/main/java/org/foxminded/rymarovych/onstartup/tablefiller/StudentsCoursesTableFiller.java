@@ -1,12 +1,17 @@
 package org.foxminded.rymarovych.onstartup.tablefiller;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class StudentsCoursesTableFiller extends TableFiller {
     @Override
     protected String generateStatement() {
         StringBuilder statementBuilder = new StringBuilder();
 
-        final String STATEMENT_BEGINNING = "INSERT INTO students_courses " +
-                "(student_id, course_id) VALUES ";
+        final String STATEMENT_BEGINNING = """
+                DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM students_courses LIMIT 1) THEN
+                INSERT INTO students_courses (student_id, course_id) VALUES
+                """;
 
         final int MAX_COURSES_OF_SINGLE_STUDENT = 3;
         final int MIN_COURSES_OF_SINGLE_STUDENT = 1;

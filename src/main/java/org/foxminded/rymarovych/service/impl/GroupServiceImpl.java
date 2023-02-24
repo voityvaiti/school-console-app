@@ -1,40 +1,25 @@
-package org.foxminded.rymarovych.queryhandlers;
+package org.foxminded.rymarovych.service.impl;
 
-import org.foxminded.rymarovych.dao.impl.GroupDaoImpl;
+import org.foxminded.rymarovych.dao.abstractions.GroupDao;
 import org.foxminded.rymarovych.models.Group;
+import org.foxminded.rymarovych.service.abstractions.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
-@Component
-public class GroupQueriesHandler {
+@Service
+public class GroupServiceImpl implements GroupService {
+
+    private final GroupDao groupDao;
 
     @Autowired
-    private GroupDaoImpl groupDao;
-
-    private final Scanner scanner = new Scanner(System.in);
-
-    protected GroupQueriesHandler() {
-    }
-
-    protected GroupQueriesHandler(GroupDaoImpl groupDao) {
+    protected GroupServiceImpl(GroupDao groupDao) {
         this.groupDao = groupDao;
     }
 
-    protected void handlePrintGroupsWithLessOrEqualsStudentsAmount() {
-
-        System.out.println("Type >=student's amount:");
-        int requestedStudentsAmount = scanner.nextInt();
-
-        System.out.print(
-                getMessageOfGroupsWithLessOrEqualsStudentsAmount(requestedStudentsAmount)
-        );
-    }
-
-    protected String getMessageOfGroupsWithLessOrEqualsStudentsAmount(int requestedStudentsAmount) {
+    public String getMessageOfGroupsWithLessOrEqualsStudentsAmount(int requestedStudentsAmount) {
 
         StringBuilder messageBuilder = new StringBuilder();
 

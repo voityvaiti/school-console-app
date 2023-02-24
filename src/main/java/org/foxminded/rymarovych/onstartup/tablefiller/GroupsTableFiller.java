@@ -1,7 +1,9 @@
 package org.foxminded.rymarovych.onstartup.tablefiller;
 
-import org.foxminded.rymarovych.service.SingleQuotesWrapper;
+import org.foxminded.rymarovych.utility.SingleQuotesWrapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GroupsTableFiller extends TableFiller {
 
     static final int GROUP_NAME_LENGTH = 5;
@@ -11,7 +13,10 @@ public class GroupsTableFiller extends TableFiller {
 
         StringBuilder statementBuilder = new StringBuilder();
 
-        final String STATEMENT_BEGINNING = "INSERT INTO groups (id, name) VALUES ";
+        final String STATEMENT_BEGINNING = """
+                DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM groups LIMIT 1) THEN
+                INSERT INTO groups (id, name) VALUES
+                """;
 
         statementBuilder.append(STATEMENT_BEGINNING);
 

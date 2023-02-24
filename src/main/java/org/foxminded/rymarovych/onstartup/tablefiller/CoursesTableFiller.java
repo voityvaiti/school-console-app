@@ -1,14 +1,19 @@
 package org.foxminded.rymarovych.onstartup.tablefiller;
 
-import org.foxminded.rymarovych.service.SingleQuotesWrapper;
+import org.foxminded.rymarovych.utility.SingleQuotesWrapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CoursesTableFiller extends TableFiller {
 
     @Override
     protected String generateStatement() {
         StringBuilder statementBuilder = new StringBuilder();
 
-        final String STATEMENT_BEGINNING = "INSERT INTO courses (id, name) VALUES ";
+        final String STATEMENT_BEGINNING = """
+                DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM courses LIMIT 1) THEN
+                INSERT INTO courses (id, name) VALUES
+                """;
 
         String[] coursesNames = {"Biology", "Math", "Art", "History", "Physics",
                 "Chemistry", "English", "P.E.", "Algebra", "Geometry"};

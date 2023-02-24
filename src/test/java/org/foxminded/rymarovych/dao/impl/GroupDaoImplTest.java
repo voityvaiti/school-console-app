@@ -1,7 +1,6 @@
-package org.foxminded.rymarovych.dao;
+package org.foxminded.rymarovych.dao.impl;
 
 import org.foxminded.rymarovych.dao.abstractions.GroupDao;
-import org.foxminded.rymarovych.dao.impl.GroupDaoImpl;
 import org.foxminded.rymarovych.models.Group;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

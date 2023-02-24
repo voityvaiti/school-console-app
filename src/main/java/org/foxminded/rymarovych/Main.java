@@ -1,19 +1,19 @@
 package org.foxminded.rymarovych;
 
-import org.foxminded.rymarovych.config.SpringJdbcConfig;
-import org.foxminded.rymarovych.onstartup.TablesCreator;
-import org.foxminded.rymarovych.onstartup.tablefiller.TablesFiller;
-import org.foxminded.rymarovych.queryhandlers.QueryReceiver;
+import org.foxminded.rymarovych.menu.abstractions.MainMenu;
+import org.foxminded.rymarovych.onstartup.StartupPresetsExecutor;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class Main {
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringJdbcConfig.class);
 
-        new TablesCreator().createTables();
-        new TablesFiller().fillTables();
-        context.getBean(QueryReceiver.class).receiveAndHandleQueries();
+        ApplicationContext context = SpringApplication.run(Main.class, args);
+
+        context.getBean(StartupPresetsExecutor.class).runPresets();
+
+        context.getBean(MainMenu.class).runMainMenu();
     }
 }

@@ -1,21 +1,28 @@
-package org.foxminded.rymarovych.queryhandlers;
+package org.foxminded.rymarovych.service.impl;
 
-import org.foxminded.rymarovych.dao.impl.GroupDaoImpl;
+import org.foxminded.rymarovych.dao.abstractions.GroupDao;
 import org.foxminded.rymarovych.models.Group;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-class GroupQueriesHandlerTest {
+@SpringBootTest(classes = {GroupServiceImpl.class})
+class GroupServiceImplTest {
 
-    static GroupDaoImpl groupDao;
+    @MockBean
+    GroupDao groupDao;
+
+    @Autowired
+    GroupServiceImpl groupService;
 
     static Map<Integer, Integer> groupDaoReturnedMap;
 
@@ -26,10 +33,7 @@ class GroupQueriesHandlerTest {
 
     static final String NEWLINE = "\n";
 
-    @BeforeAll
-    static void setUp() {
-        groupDao = Mockito.mock(GroupDaoImpl.class);
-
+    static {
         groupDaoReturnedMap = new HashMap<>();
         groupDaoReturnedMap.put(1, 10);
         groupDaoReturnedMap.put(2, 20);
@@ -40,6 +44,10 @@ class GroupQueriesHandlerTest {
         group2.setName("GROUP2");
         group3.setName("GROUP3");
         group4.setName("GROUP4");
+    }
+
+    @BeforeEach
+    void setUp() {
 
         when(groupDao.getGroupIdToStudentsAmount()).thenReturn(groupDaoReturnedMap);
         when(groupDao.findGroupById(1)).thenReturn(Optional.of(group1));
@@ -55,7 +63,7 @@ class GroupQueriesHandlerTest {
         String expected = group1.toString() + NEWLINE +
                 group2.toString() + NEWLINE;
 
-        assertEquals(expected, new GroupQueriesHandler(groupDao).
+        assertEquals(expected, groupService.
                 getMessageOfGroupsWithLessOrEqualsStudentsAmount(requestedStudentsAmount));
 
     }
@@ -70,7 +78,7 @@ class GroupQueriesHandlerTest {
                 group3.toString() + NEWLINE +
                 group4.toString() + NEWLINE;
 
-        assertEquals(expected, new GroupQueriesHandler(groupDao).
+        assertEquals(expected, groupService.
                 getMessageOfGroupsWithLessOrEqualsStudentsAmount(requestedStudentsAmount));
 
     }
@@ -82,7 +90,7 @@ class GroupQueriesHandlerTest {
 
         String expected = "No such groups\n";
 
-        assertEquals(expected, new GroupQueriesHandler(groupDao).
+        assertEquals(expected, groupService.
                 getMessageOfGroupsWithLessOrEqualsStudentsAmount(requestedStudentsAmount));
 
     }
