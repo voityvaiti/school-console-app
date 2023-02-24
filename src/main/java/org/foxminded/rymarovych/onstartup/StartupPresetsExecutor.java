@@ -10,12 +10,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class StartupPresetsExecutor {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(StartupPresetsExecutor.class);
+
     private final TablesCreator tablesCreator;
-
     private final TablesFiller tablesFiller;
-
-    private static final Logger logger = LoggerFactory.getLogger(StartupPresetsExecutor.class);
-
 
     @Autowired
     public StartupPresetsExecutor(TablesCreator tablesCreator, TablesFiller tablesFiller) {
@@ -24,16 +22,16 @@ public class StartupPresetsExecutor {
     }
 
     public void runPresets() {
-        logger.info("Started presets execution..");
+        LOGGER.info("Started presets execution..");
 
-        logger.debug("Tables existing ensure started");
+        LOGGER.debug("Tables existing ensure started");
         tablesCreator.createTablesIfNotExist();
-        logger.debug("Finished tables existing ensure");
+        LOGGER.debug("Finished tables existing ensure");
 
-        logger.debug("Tables data existence ensure started");
+        LOGGER.debug("Tables data existence ensure started");
         tablesFiller.fillTablesIfEmpty();
-        logger.debug("Finished tables data existence ensure");
+        LOGGER.debug("Finished tables data existence ensure");
 
-        logger.info("Presets completed");
+        LOGGER.info("Presets completed");
     }
 }

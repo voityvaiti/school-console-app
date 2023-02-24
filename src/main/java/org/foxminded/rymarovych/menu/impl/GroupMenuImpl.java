@@ -12,8 +12,9 @@ import java.util.Scanner;
 @Component
 public class GroupMenuImpl implements GroupMenu {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroupMenuImpl.class);
+
     private final Scanner scanner = new Scanner(System.in);
-    private static final Logger logger = LoggerFactory.getLogger(GroupMenuImpl.class);
 
     private final GroupService groupService;
 
@@ -25,12 +26,12 @@ public class GroupMenuImpl implements GroupMenu {
     @Override
     public void handlePrintGroupsWithLessOrEqualsStudentsAmount() {
 
-        logger.debug("Print groups with less or equals students amount query received. Asking for params..");
+        LOGGER.debug("Print groups with less or equals students amount query received. Asking for params..");
 
         System.out.println("Type >=student's amount:");
         int requestedStudentsAmount = scanner.nextInt();
 
-        logger.debug("Print groups with less or equals students amount query params received.");
+        LOGGER.debug("Print groups with less or equals students amount query params received (requestedStudentsAmount: {})", requestedStudentsAmount);
 
         System.out.print(
                 groupService.getMessageOfGroupsWithLessOrEqualsStudentsAmount(requestedStudentsAmount)

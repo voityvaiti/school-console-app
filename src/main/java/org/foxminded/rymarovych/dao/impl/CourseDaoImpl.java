@@ -31,7 +31,7 @@ public class CourseDaoImpl implements CourseDao {
             """;
 
 
-    private static final Logger logger = LoggerFactory.getLogger(CourseDaoImpl.class);
+    private static final Logger LOGGER  = LoggerFactory.getLogger(CourseDaoImpl.class);
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Course> courseRowMapper = new CourseRowMapper();
 
@@ -43,35 +43,35 @@ public class CourseDaoImpl implements CourseDao {
 
     @Override
     public Optional<Course> findCourseById(int id) {
-        logger.debug("Attempt to find course by ID");
+        LOGGER.debug("Attempt to find course by ID: {}", id);
 
         Course course = jdbcTemplate
                 .query(FIND_COURSE_BY_ID_STATEMENT, courseRowMapper, id)
                 .stream().findAny().orElse(null);
 
         if (course == null) {
-            logger.warn("Course not found by ID");
+            LOGGER.warn("Course not found by ID: {}", id);
             return Optional.empty();
 
         } else {
-            logger.debug("Found course by ID");
+            LOGGER.debug("Found course ({}) by ID: {}", course, id);
             return Optional.of(course);
         }
     }
 
     @Override
     public Optional<Course> findCourseByName(String name) {
-        logger.debug("Attempt to find course by name");
+        LOGGER.debug("Attempt to find course by name: {}", name);
 
         Course course = jdbcTemplate
                 .query(FIND_COURSE_BY_NAME_STATEMENT, courseRowMapper, name)
                 .stream().findAny().orElse(null);
 
         if (course == null) {
-            logger.warn("Course not found by course name");
+            LOGGER.warn("Course not found by course name: {}", name);
             return Optional.empty();
         } else {
-            logger.debug("Found course by course name");
+            LOGGER.debug("Found course ({}) by course name: {}", course, name);
             return Optional.of(course);
         }
 
@@ -79,26 +79,29 @@ public class CourseDaoImpl implements CourseDao {
 
     @Override
     public List<Course> getStudentCourses(int studentId) {
-        logger.debug("Attempt to get list of student courses");
+        LOGGER.debug("Attempt to get list of student courses by student ID: {}", studentId);
+        List<Course> studentCourses =
+                jdbcTemplate.query(GET_COURSES_BY_STUDENT_ID, courseRowMapper, studentId);
 
-        return jdbcTemplate.query(GET_COURSES_BY_STUDENT_ID, courseRowMapper, studentId);
+        LOGGER.debug("List of student courses gotten by student ID: {}. Size: {}", studentId, studentCourses.size());
+        return studentCourses;
     }
 
     @Override
     public void addStudentToTheCourse(int studentId, String courseName) {
-        logger.debug("Attempt to add student to the course");
+        LOGGER.debug("Attempt to add student by ID: {}, to the course by name: {}", studentId, courseName);
 
         jdbcTemplate.update(ADD_STUDENT_COURSE_STATEMENT, studentId, courseName);
 
-        logger.info("Student addition to the course statement executed");
+        LOGGER.info("Student (ID: {}) addition to the course (name: {}) statement executed", studentId, courseName);
     }
 
     @Override
     public void deleteStudentFromCourse(int studentId, String courseName) {
-        logger.debug("Attempt to delete student from the course");
+        LOGGER.debug("Attempt to delete student by ID: {} from the course by name: {}", studentId, courseName);
 
         jdbcTemplate.update(DELETE_STUDENT_COURSE_BY_ID_STATEMENT, studentId, courseName);
 
-        logger.info("Student deletion from the course statement executed");
+        LOGGER.info("Student (ID: {}) deletion from the course (name: {}) statement executed", studentId, courseName);
     }
 }

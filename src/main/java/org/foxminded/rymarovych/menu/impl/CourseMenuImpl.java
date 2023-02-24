@@ -12,8 +12,9 @@ import java.util.Scanner;
 @Component
 public class CourseMenuImpl implements CourseMenu {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseMenuImpl.class);
+
     private final Scanner scanner = new Scanner(System.in);
-    private static final Logger logger = LoggerFactory.getLogger(CourseMenuImpl.class);
 
     private final CourseService courseService;
 
@@ -24,7 +25,7 @@ public class CourseMenuImpl implements CourseMenu {
 
     @Override
     public void handleStudentAdditionToTheCourse() {
-        logger.debug("Student addition to the course query received. Asking for params..");
+        LOGGER.debug("Student addition to the course query received. Asking for params..");
 
         System.out.println("Type student id:");
         int studentId = scanner.nextInt();
@@ -32,7 +33,7 @@ public class CourseMenuImpl implements CourseMenu {
         System.out.println("Type course name:");
         String courseName = scanner.next();
 
-        logger.debug("Student addition to the course query params received");
+        LOGGER.debug("Student addition to the course query params received (studentId: {}, courseName: {})", studentId, courseName);
 
         courseService.studentAdditionToTheCourse(studentId, courseName);
 
@@ -40,7 +41,7 @@ public class CourseMenuImpl implements CourseMenu {
 
     @Override
     public void handleStudentRemovingFromTheCourse() {
-        logger.debug("Student removal from the course query received. Asking for params..");
+        LOGGER.debug("Student removal from the course query received. Asking for params..");
 
         System.out.println("Type student id:");
         int studentId = scanner.nextInt();
@@ -48,7 +49,7 @@ public class CourseMenuImpl implements CourseMenu {
         System.out.println("Type course name:");
         String courseName = scanner.next();
 
-        logger.debug("Student removal from the course query params received");
+        LOGGER.debug("Student removal from the course query params received (studentId: {}, courseName: {})", studentId, courseName);
 
         courseService.studentRemovingFromTheCourse(studentId, courseName);
     }

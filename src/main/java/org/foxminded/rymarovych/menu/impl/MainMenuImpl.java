@@ -14,12 +14,13 @@ import java.util.Scanner;
 @Component
 public class MainMenuImpl implements MainMenu {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainMenuImpl.class);
+
     private final StudentMenu studentMenu;
     private final GroupMenu groupMenu;
     private final CourseMenu courseMenu;
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final Logger logger = LoggerFactory.getLogger(MainMenuImpl.class);
 
     @Autowired
     public MainMenuImpl(StudentMenu studentMenu, GroupMenu groupMenu, CourseMenu courseMenu) {
@@ -31,7 +32,7 @@ public class MainMenuImpl implements MainMenu {
     private static final String MESSAGE_ENDING = "----------\n";
 
     public void runMainMenu() {
-        logger.info("Main menu launched");
+        LOGGER.info("Main menu launched");
 
         final int STOP_PROGRAM_COMMAND = 0;
 
@@ -48,11 +49,11 @@ public class MainMenuImpl implements MainMenu {
         System.out.println(menu);
         System.out.println("To stop program type " + STOP_PROGRAM_COMMAND);
 
-        logger.debug("Asking for query...");
+        LOGGER.debug("Asking for query...");
 
         int query = scanner.nextInt();
 
-        logger.debug("Query received");
+        LOGGER.debug("Query received");
 
         while (query != STOP_PROGRAM_COMMAND) {
 
@@ -66,7 +67,7 @@ public class MainMenuImpl implements MainMenu {
                 default -> System.out.println("Error! Wrong query");
             }
 
-            logger.debug("Query handled");
+            LOGGER.debug("Query handled");
 
             System.out.println(
                     MESSAGE_ENDING + "\n" +
@@ -74,13 +75,13 @@ public class MainMenuImpl implements MainMenu {
                             "To stop program type " + STOP_PROGRAM_COMMAND + "\n"
             );
 
-            logger.debug("Asking for query...");
+            LOGGER.debug("Asking for query...");
 
             query = scanner.nextInt();
 
-            logger.debug("Query received");
+            LOGGER.debug("Query received");
         }
 
-        logger.info("Main menu finished its work");
+        LOGGER.info("Main menu finished its work");
     }
 }
