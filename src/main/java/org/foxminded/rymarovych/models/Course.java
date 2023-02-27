@@ -1,13 +1,29 @@
 package org.foxminded.rymarovych.models;
 
-import java.util.Objects;
+import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+@Entity
+@Table(name = "courses")
 public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "description")
     private String description;
 
-    public Course() {}
+    @ManyToMany(mappedBy = "courses")
+    private Set<Student> students = new HashSet<>();
+
+    public Course() {
+    }
 
     public Course(String name, String description) {
         this.name = name;
@@ -42,6 +58,24 @@ public class Course {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+    }
+
+    public void addStudent(Student student) {
+        students.add(student);
+        student.getCourses().add(this);
+    }
+
+    public void removeStudent(Student student) {
+        students.remove(student);
+        student.getCourses().remove(this);
     }
 
     @Override

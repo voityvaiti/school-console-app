@@ -2,12 +2,12 @@ package org.foxminded.rymarovych.dao.impl;
 
 import org.foxminded.rymarovych.dao.abstractions.GroupDao;
 import org.foxminded.rymarovych.models.Group;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.HashMap;
@@ -15,7 +15,9 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@JdbcTest
+@DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
+        GroupDaoImpl.class
+}))
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Sql(
         scripts = {"/sql/CREATE_TABLES.sql", "/sql/SAMPLE_DATA.sql"},
@@ -24,13 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GroupDaoImplTest {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
     private GroupDao dao;
-
-    @BeforeEach
-    void setUp() {
-        dao = new GroupDaoImpl(jdbcTemplate);
-    }
 
     @Test
     void getGroupIdToStudentsAmount() {

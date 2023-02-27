@@ -3,12 +3,12 @@ package org.foxminded.rymarovych.dao.impl;
 import org.assertj.core.api.CollectionAssert;
 import org.foxminded.rymarovych.dao.abstractions.CourseDao;
 import org.foxminded.rymarovych.models.Course;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Arrays;
@@ -16,7 +16,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@JdbcTest
+@DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
+        CourseDaoImpl.class
+}))
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Sql(
         scripts = {"/sql/CREATE_TABLES.sql", "/sql/SAMPLE_DATA.sql"},
@@ -25,13 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CourseDaoImplTest {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
     private CourseDao dao;
-
-    @BeforeEach
-    void setUp() {
-        dao = new CourseDaoImpl(jdbcTemplate);
-    }
 
     @Test
     void findCourseById() {
