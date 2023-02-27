@@ -3,13 +3,13 @@ package org.foxminded.rymarovych.dao.impl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import org.foxminded.rymarovych.dao.abstractions.CourseDao;
 import org.foxminded.rymarovych.models.Course;
 import org.foxminded.rymarovych.models.Student;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
