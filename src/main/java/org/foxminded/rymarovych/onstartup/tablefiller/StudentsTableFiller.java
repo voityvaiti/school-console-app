@@ -17,7 +17,7 @@ public class StudentsTableFiller extends TableFiller {
 
         final String STATEMENT_BEGINNING = """
                 DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM students LIMIT 1) THEN
-                INSERT INTO students (id, group_id, first_name, last_name) VALUES
+                INSERT INTO students (group_id, first_name, last_name) VALUES
                 """;
 
         statementBuilder.append(STATEMENT_BEGINNING);
@@ -30,7 +30,6 @@ public class StudentsTableFiller extends TableFiller {
             int group = studentsInGroups.get(i - 1);
 
             statementBuilder.append(STATEMENT_ELEM_START).
-                    append(i).append(STATEMENT_GAP).
                     append(group).append(STATEMENT_GAP).
                     append(firstName).append(STATEMENT_GAP).
                     append(lastName).

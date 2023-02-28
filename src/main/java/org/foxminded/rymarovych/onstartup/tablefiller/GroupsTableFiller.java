@@ -15,7 +15,7 @@ public class GroupsTableFiller extends TableFiller {
 
         final String STATEMENT_BEGINNING = """
                 DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM groups LIMIT 1) THEN
-                INSERT INTO groups (id, name) VALUES
+                INSERT INTO groups (name) VALUES
                 """;
 
         statementBuilder.append(STATEMENT_BEGINNING);
@@ -27,7 +27,6 @@ public class GroupsTableFiller extends TableFiller {
             );
 
             statementBuilder.append(STATEMENT_ELEM_START).
-                    append(i).append(STATEMENT_GAP).
                     append(groupName).
                     append(STATEMENT_ELEM_END);
         }
