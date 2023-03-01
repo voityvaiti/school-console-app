@@ -1,6 +1,6 @@
 package org.foxminded.rymarovych.service.impl;
 
-import org.foxminded.rymarovych.dao.abstractions.CourseDao;
+import org.foxminded.rymarovych.dao.repository.CourseRepository;
 import org.foxminded.rymarovych.models.Course;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.never;
 class CourseServiceImplTest {
 
     @MockBean
-    CourseDao courseDao;
+    CourseRepository courseDao;
 
     @Autowired
     CourseServiceImpl courseService;
@@ -34,7 +34,7 @@ class CourseServiceImplTest {
 
         courseService.studentAdditionToTheCourse(studentId, courseName);
 
-        verify(courseDao).addStudentToTheCourse(anyInt(), anyString());
+        verify(courseDao).addStudentToTheCourse(anyInt(), anyInt());
     }
 
     @Test
@@ -47,7 +47,7 @@ class CourseServiceImplTest {
 
         courseService.studentAdditionToTheCourse(studentId, courseName);
 
-        verify(courseDao, never()).addStudentToTheCourse(anyInt(), anyString());
+        verify(courseDao, never()).addStudentToTheCourse(anyInt(), anyInt());
     }
 
     @Test
@@ -60,7 +60,7 @@ class CourseServiceImplTest {
 
         courseService.studentRemovingFromTheCourse(studentId, courseName);
 
-        verify(courseDao).deleteStudentFromCourse(anyInt(), anyString());
+        verify(courseDao).deleteStudentFromCourse(anyInt(), anyInt());
     }
 
     @Test
@@ -73,7 +73,7 @@ class CourseServiceImplTest {
 
         courseService.studentRemovingFromTheCourse(studentId, courseName);
 
-        verify(courseDao, never()).deleteStudentFromCourse(anyInt(), anyString());
+        verify(courseDao, never()).deleteStudentFromCourse(anyInt(), anyInt());
     }
 
 
