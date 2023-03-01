@@ -32,6 +32,7 @@ CREATE TABLE courses
 
 CREATE TABLE students_courses
 (
+    id SERIAL PRIMARY KEY,
     student_id int,
     course_id  int
 );

@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS courses
 
 CREATE TABLE IF NOT EXISTS students_courses
 (
+    id         SERIAL PRIMARY KEY,
     student_id int,
     course_id  int
 );

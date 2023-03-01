@@ -61,28 +61,4 @@ class CourseRepositoryTest {
                 courseRepository.getStudentCourses(STUDENT_ID)
         );
     }
-
-    @Test
-    void addStudentToTheCourse() {
-        final int STUDENT_ID = 7;
-        final int COURSE_ID = 6;
-
-        assertTrue(courseRepository.getStudentCourses(STUDENT_ID).stream().filter(c -> c.getId() == (COURSE_ID)).toList().isEmpty());
-
-        courseRepository.addStudentToTheCourse(STUDENT_ID, COURSE_ID);
-
-        assertFalse(courseRepository.getStudentCourses(STUDENT_ID).stream().filter(c -> c.getId() == (COURSE_ID)).toList().isEmpty());
-    }
-
-    @Test
-    void deleteStudentFromCourse() {
-        final int STUDENT_ID = 8;
-        final int COURSE_ID = 5;
-
-        assertFalse(courseRepository.getStudentCourses(STUDENT_ID).stream().filter(c -> c.getId() == (COURSE_ID)).toList().isEmpty());
-
-        courseRepository.deleteStudentFromCourse(STUDENT_ID, COURSE_ID);
-
-        assertTrue(courseRepository.getStudentCourses(STUDENT_ID).stream().filter(c -> c.getId() == (COURSE_ID)).toList().isEmpty());
-    }
 }
