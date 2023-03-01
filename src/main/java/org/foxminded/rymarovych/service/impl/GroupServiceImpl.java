@@ -1,40 +1,43 @@
 package org.foxminded.rymarovych.service.impl;
 
-import org.foxminded.rymarovych.dao.abstractions.GroupDao;
+import org.foxminded.rymarovych.dao.repository.GroupRepository;
 import org.foxminded.rymarovych.models.Group;
+import org.foxminded.rymarovych.models.dto.StudentAmountInGroupDto;
 import org.foxminded.rymarovych.service.abstractions.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class GroupServiceImpl implements GroupService {
 
-    private final GroupDao groupDao;
+    private final GroupRepository groupRepository;
 
     @Autowired
-    protected GroupServiceImpl(GroupDao groupDao) {
-        this.groupDao = groupDao;
+    protected GroupServiceImpl(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
     }
 
     public String getMessageOfGroupsWithLessOrEqualsStudentsAmount(int requestedStudentsAmount) {
 
         StringBuilder messageBuilder = new StringBuilder();
 
-        Map<Integer, Integer> groupIdToStudentsAmount = groupDao.getGroupIdToStudentsAmount();
+        List<Integer> filteredGroupIdList =
+                groupRepository.getGroupIdToStudentsAmount()
+                        .stream()
+                        .filter(dto -> dto.getAmountOfStudents() <= requestedStudentsAmount)
+                        .map(StudentAmountInGroupDto::getGroupId)
+                        .toList();
 
-        List<Map.Entry<Integer, Integer>> filteredEntryList = groupIdToStudentsAmount.entrySet().stream().
-                filter(entity -> entity.getValue() <= requestedStudentsAmount).toList();
 
-        if (filteredEntryList.isEmpty()) {
+        if(filteredGroupIdList.isEmpty()) {
             messageBuilder.append("No such groups\n");
-        } else {
 
-            for (Map.Entry<Integer, Integer> entry : filteredEntryList) {
+        } else {
+            for(Integer groupId: filteredGroupIdList) {
                 messageBuilder.append(
-                        groupDao.findGroupById(entry.getKey())
+                        groupRepository.findById(groupId)
                                 .stream().findAny().orElse(new Group())
                 ).append("\n");
             }

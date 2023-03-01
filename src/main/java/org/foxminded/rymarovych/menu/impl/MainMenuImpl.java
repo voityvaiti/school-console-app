@@ -53,7 +53,7 @@ public class MainMenuImpl implements MainMenu {
 
         int query = scanner.nextInt();
 
-        LOGGER.debug("Query received");
+        LOGGER.debug("Query received with index: {}", query);
 
         while (query != STOP_PROGRAM_COMMAND) {
 
