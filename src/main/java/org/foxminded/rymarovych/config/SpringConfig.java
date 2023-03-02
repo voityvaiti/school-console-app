@@ -16,8 +16,11 @@ import javax.sql.DataSource;
 @PropertySource("classpath:db/db.properties")
 public class SpringConfig {
 
-    @Autowired
-    Environment env;
+    private final Environment env;
+
+    public SpringConfig(Environment env) {
+        this.env = env;
+    }
 
     @Bean
     public DataSource postgresqlDataSource() {
