@@ -1,0 +1,87 @@
+package com.myproject.menu.impl;
+
+import com.myproject.menu.abstractions.CourseMenu;
+import com.myproject.menu.abstractions.GroupMenu;
+import com.myproject.menu.abstractions.MainMenu;
+import com.myproject.menu.abstractions.StudentMenu;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Scanner;
+
+@Component
+public class MainMenuImpl implements MainMenu {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainMenuImpl.class);
+
+    private final StudentMenu studentMenu;
+    private final GroupMenu groupMenu;
+    private final CourseMenu courseMenu;
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    @Autowired
+    public MainMenuImpl(StudentMenu studentMenu, GroupMenu groupMenu, CourseMenu courseMenu) {
+        this.studentMenu = studentMenu;
+        this.groupMenu = groupMenu;
+        this.courseMenu = courseMenu;
+    }
+
+    private static final String MESSAGE_ENDING = "----------\n";
+
+    public void runMainMenu() {
+        LOGGER.info("Main menu launched");
+
+        final int STOP_PROGRAM_COMMAND = 0;
+
+        String menu = """
+                1. Find all groups with less or equal students’ number
+                2. Find all students related to the course
+                3. Add a new student
+                4. Delete a student
+                5. Add a student to the course
+                6. Remove the student from course
+                                """;
+
+        System.out.println("---SCHOOL CONSOLE APP---");
+        System.out.println(menu);
+        System.out.println("To stop program type " + STOP_PROGRAM_COMMAND);
+
+        LOGGER.debug("Asking for query...");
+
+        int query = scanner.nextInt();
+
+        LOGGER.debug("Query received with index: {}", query);
+
+        while (query != STOP_PROGRAM_COMMAND) {
+
+            switch (query) {
+                case 1 -> groupMenu.handlePrintGroupsWithLessOrEqualsStudentsAmount();
+                case 2 -> studentMenu.handlePrintStudentsRelatedToCourse();
+                case 3 -> studentMenu.handleStudentAddition();
+                case 4 -> studentMenu.handleRemoveStudentById();
+                case 5 -> courseMenu.handleStudentAdditionToTheCourse();
+                case 6 -> courseMenu.handleStudentRemovingFromTheCourse();
+                default -> System.out.println("Error! Wrong query");
+            }
+
+            LOGGER.debug("Query handled");
+
+            System.out.println(
+                    MESSAGE_ENDING + "\n" +
+                            menu + "\n" +
+                            "To stop program type " + STOP_PROGRAM_COMMAND + "\n"
+            );
+
+            LOGGER.debug("Asking for query...");
+
+            query = scanner.nextInt();
+
+            LOGGER.debug("Query received");
+        }
+
+        LOGGER.info("Main menu finished its work");
+    }
+}
