@@ -1,6 +1,6 @@
 package org.foxminded.rymarovych.service.impl;
 
-import org.foxminded.rymarovych.dao.abstractions.StudentDao;
+import org.foxminded.rymarovych.dao.repository.StudentRepository;
 import org.foxminded.rymarovych.models.Student;
 import org.foxminded.rymarovych.service.abstractions.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +11,18 @@ import java.util.List;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    private final StudentDao studentsDao;
+    private final StudentRepository studentRepository;
 
     @Autowired
-    protected StudentServiceImpl(StudentDao studentsDao) {
-        this.studentsDao = studentsDao;
+    protected StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
 
     public String printStudentsRelatedToCourse(String courseName) {
 
         StringBuilder messageBuilder = new StringBuilder();
 
-        List<Student> studentList = studentsDao.getStudentsByCourseName(courseName);
+        List<Student> studentList = studentRepository.getStudentsByCourseName(courseName);
 
         if (studentList.isEmpty()) {
             messageBuilder.append("No students related to this course or no such course\n");
@@ -38,12 +38,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     public void studentAddition(int groupId, String firstName, String lastName) {
-        studentsDao.addStudent(
+        studentRepository.save(
                 new Student(groupId, firstName, lastName)
         );
     }
 
     public void removeStudentById(int id) {
-        studentsDao.deleteStudent(id);
+        studentRepository.deleteById(id);
     }
 }

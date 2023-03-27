@@ -1,15 +1,17 @@
 package org.foxminded.rymarovych.service.impl;
 
-import org.foxminded.rymarovych.dao.abstractions.GroupDao;
+import org.foxminded.rymarovych.dao.repository.GroupRepository;
 import org.foxminded.rymarovych.models.Group;
+import org.foxminded.rymarovych.models.dto.StudentAmountInGroupDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,12 +21,12 @@ import static org.mockito.Mockito.when;
 class GroupServiceImplTest {
 
     @MockBean
-    GroupDao groupDao;
+    GroupRepository groupDao;
 
     @Autowired
     GroupServiceImpl groupService;
 
-    static Map<Integer, Integer> groupDaoReturnedMap;
+    static List<StudentAmountInGroupDto> groupDaoReturnedList;
 
     static Group group1 = new Group();
     static Group group2 = new Group();
@@ -34,11 +36,12 @@ class GroupServiceImplTest {
     static final String NEWLINE = "\n";
 
     static {
-        groupDaoReturnedMap = new HashMap<>();
-        groupDaoReturnedMap.put(1, 10);
-        groupDaoReturnedMap.put(2, 20);
-        groupDaoReturnedMap.put(3, 30);
-        groupDaoReturnedMap.put(4, 40);
+        groupDaoReturnedList = new ArrayList<>();
+        groupDaoReturnedList.add(new StudentAmountInGroupDto(1, 10L));
+        groupDaoReturnedList.add(new StudentAmountInGroupDto(2, 20L));
+        groupDaoReturnedList.add(new StudentAmountInGroupDto(3, 30L));
+        groupDaoReturnedList.add(new StudentAmountInGroupDto(4, 40L));
+
 
         group1.setName("GROUP1");
         group2.setName("GROUP2");
@@ -49,11 +52,11 @@ class GroupServiceImplTest {
     @BeforeEach
     void setUp() {
 
-        when(groupDao.getGroupIdToStudentsAmount()).thenReturn(groupDaoReturnedMap);
-        when(groupDao.findGroupById(1)).thenReturn(Optional.of(group1));
-        when(groupDao.findGroupById(2)).thenReturn(Optional.of(group2));
-        when(groupDao.findGroupById(3)).thenReturn(Optional.of(group3));
-        when(groupDao.findGroupById(4)).thenReturn(Optional.of(group4));
+        when(groupDao.getGroupIdToStudentsAmount()).thenReturn(groupDaoReturnedList);
+        when(groupDao.findById(1)).thenReturn(Optional.of(group1));
+        when(groupDao.findById(2)).thenReturn(Optional.of(group2));
+        when(groupDao.findById(3)).thenReturn(Optional.of(group3));
+        when(groupDao.findById(4)).thenReturn(Optional.of(group4));
     }
 
     @Test

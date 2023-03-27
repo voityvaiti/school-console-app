@@ -1,21 +1,21 @@
-INSERT INTO courses (id, name)
-VALUES (1, 'Biology'),
-       (2, 'Math'),
-       (3, 'Art'),
-       (4, 'History'),
-       (5, 'Physics'),
-       (6, 'Chemistry'),
-       (7, 'English'),
-       (8, 'P.E.'),
-       (9, 'Algebra'),
-       (10, 'Geometry');
+INSERT INTO courses (name)
+VALUES ('Biology'),
+       ('Math'),
+       ('Art'),
+       ('History'),
+       ('Physics'),
+       ('Chemistry'),
+       ('English'),
+       ('P.E.'),
+       ('Algebra'),
+       ('Geometry');
 
-INSERT INTO groups (id, name)
-VALUES (1, 'WP-10'),
-       (2, 'DS-35'),
-       (3, 'MF-23'),
-       (4, 'VC-33'),
-       (5, 'LW-34');
+INSERT INTO groups (name)
+VALUES ('WP-10'),
+       ('DS-35'),
+       ('MF-23'),
+       ('VC-33'),
+       ('LW-34');
 
 INSERT INTO students_courses (student_id, course_id)
 VALUES (1, 8),
@@ -57,24 +57,24 @@ VALUES (1, 8),
        (20, 3),
        (21, 8);
 
-INSERT INTO students (id, group_id, first_name, last_name)
-VALUES (1, 1, 'Miles', 'Thomas'),
-       (2, 1, 'Brian', 'Lewis'),
-       (3, 1, 'Jorge', 'Roberts'),
-       (4, 2, 'Brian', 'Green'),
-       (5, 2, 'Miles', 'Williams'),
-       (6, 2, 'Debra', 'Harris'),
-       (7, 2, 'John', 'Thomas'),
-       (8, 2, 'Jorge', 'Harris'),
-       (9, 2, 'Isabel', 'Edwards'),
-       (10, 2, 'Stella', 'Edwards'),
-       (11, 4, 'Stella', 'Thomas'),
-       (12, 4, 'Dan', 'Lewis'),
-       (13, 4, 'Dan', 'Williams'),
-       (14, 4, 'Jorge', 'Robinson'),
-       (15, 4, 'John', 'Lewis'),
-       (16, 5, 'Vera', 'Robinson'),
-       (17, 5, 'Lucy', 'Brown'),
-       (18, 5, 'John', 'Smith'),
-       (19, 5, 'Isabel', 'Green'),
-       (20, 5, 'Jorge', 'Wilson');
+INSERT INTO students (group_id, first_name, last_name)
+VALUES (1, 'Miles', 'Thomas'),
+       (1, 'Brian', 'Lewis'),
+       (1, 'Jorge', 'Roberts'),
+       (2, 'Brian', 'Green'),
+       (2, 'Miles', 'Williams'),
+       (2, 'Debra', 'Harris'),
+       (2, 'John', 'Thomas'),
+       (2, 'Jorge', 'Harris'),
+       (2, 'Isabel', 'Edwards'),
+       (2, 'Stella', 'Edwards'),
+       (4, 'Stella', 'Thomas'),
+       (4, 'Dan', 'Lewis'),
+       (4, 'Dan', 'Williams'),
+       (4, 'Jorge', 'Robinson'),
+       (4, 'John', 'Lewis'),
+       (5, 'Vera', 'Robinson'),
+       (5, 'Lucy', 'Brown'),
+       (5, 'John', 'Smith'),
+       (5, 'Isabel', 'Green'),
+       (5, 'Jorge', 'Wilson');

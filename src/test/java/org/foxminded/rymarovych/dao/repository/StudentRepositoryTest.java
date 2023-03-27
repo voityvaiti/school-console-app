@@ -1,14 +1,13 @@
-package org.foxminded.rymarovych.dao.impl;
+package org.foxminded.rymarovych.dao.repository;
 
 import org.assertj.core.api.CollectionAssert;
-import org.foxminded.rymarovych.dao.abstractions.StudentDao;
 import org.foxminded.rymarovych.models.Student;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Arrays;
@@ -17,22 +16,18 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@JdbcTest
+
+@DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
+        StudentRepository.class
+}))
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Sql(
         scripts = {"/sql/CREATE_TABLES.sql", "/sql/SAMPLE_DATA.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
 )
-class StudentDaoImplTest {
-
+class StudentRepositoryTest {
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-    private StudentDao dao;
-
-    @BeforeEach
-    void setUp() {
-        dao = new StudentDaoImpl(jdbcTemplate);
-    }
+    private StudentRepository dao;
 
     @Test
     void getStudentsByCourseName() {
@@ -40,7 +35,7 @@ class StudentDaoImplTest {
                 new Student(3, 1, "Jorge", "Roberts"),
                 new Student(14, 4, "Jorge", "Robinson"),
                 new Student(15, 4, "John", "Lewis")
-                );
+        );
 
         CollectionAssert.assertThatCollection(expectedList).containsExactlyInAnyOrderElementsOf(
                 dao.getStudentsByCourseName("Math")
@@ -54,8 +49,8 @@ class StudentDaoImplTest {
 
         Student expected = new Student(STUDENT_ID, 4, "Stella", "Thomas");
 
-        assertTrue(dao.findStudentById(STUDENT_ID).isPresent());
-        assertEquals(expected, dao.findStudentById(STUDENT_ID).get());
+        assertTrue(dao.findById(STUDENT_ID).isPresent());
+        assertEquals(expected, dao.findById(STUDENT_ID).get());
     }
 
     @Test
@@ -63,12 +58,12 @@ class StudentDaoImplTest {
         final int STUDENT_ID = dao.getMaxId() + 1;
 
         Student studentToAdd = new Student(
-                STUDENT_ID,5, "Michael", "Stevenson"
+                5, "Michael", "Stevenson"
         );
 
-        dao.addStudent(studentToAdd);
+        dao.save(studentToAdd);
 
-        Optional<Student> optionalActualStudent = dao.findStudentById(STUDENT_ID);
+        Optional<Student> optionalActualStudent = dao.findById(STUDENT_ID);
 
         assertTrue(optionalActualStudent.isPresent());
         assertEquals(studentToAdd, optionalActualStudent.get());
@@ -76,7 +71,7 @@ class StudentDaoImplTest {
 
     @Test
     void deleteStudent() {
-        dao.deleteStudent(1);
-        assertEquals(dao.findStudentById(1), Optional.empty());
+        dao.deleteById(1);
+        assertEquals(dao.findById(1), Optional.empty());
     }
 }

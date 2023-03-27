@@ -1,6 +1,6 @@
 package org.foxminded.rymarovych.service.impl;
 
-import org.foxminded.rymarovych.dao.abstractions.StudentDao;
+import org.foxminded.rymarovych.dao.repository.StudentRepository;
 import org.foxminded.rymarovych.models.Student;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 class StudentServiceImplTest {
 
     @MockBean
-    StudentDao studentDao;
+    StudentRepository studentDao;
 
     @Autowired
     StudentServiceImpl studentService;
@@ -75,7 +75,7 @@ class StudentServiceImplTest {
                 groupId, firstName, lastName
         );
 
-        verify(studentDao).addStudent(expectedStudentToAdd);
+        verify(studentDao).save(expectedStudentToAdd);
     }
 
     @Test
@@ -85,6 +85,6 @@ class StudentServiceImplTest {
 
         studentService.removeStudentById(studentId);
 
-        verify(studentDao).deleteStudent(studentId);
+        verify(studentDao).deleteById(studentId);
     }
 }

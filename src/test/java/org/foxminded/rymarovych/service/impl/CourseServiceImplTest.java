@@ -1,7 +1,9 @@
 package org.foxminded.rymarovych.service.impl;
 
-import org.foxminded.rymarovych.dao.abstractions.CourseDao;
+import org.foxminded.rymarovych.dao.repository.CourseRepository;
+import org.foxminded.rymarovych.dao.repository.relational.StudentCourseRepository;
 import org.foxminded.rymarovych.models.Course;
+import org.foxminded.rymarovych.models.relational.StudentCourse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,8 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.never;
@@ -19,7 +20,9 @@ import static org.mockito.Mockito.never;
 class CourseServiceImplTest {
 
     @MockBean
-    CourseDao courseDao;
+    CourseRepository courseDao;
+    @MockBean
+    StudentCourseRepository studentCourseDao;
 
     @Autowired
     CourseServiceImpl courseService;
@@ -34,7 +37,7 @@ class CourseServiceImplTest {
 
         courseService.studentAdditionToTheCourse(studentId, courseName);
 
-        verify(courseDao).addStudentToTheCourse(anyInt(), anyString());
+        verify(studentCourseDao).save(any(StudentCourse.class));
     }
 
     @Test
@@ -47,20 +50,26 @@ class CourseServiceImplTest {
 
         courseService.studentAdditionToTheCourse(studentId, courseName);
 
-        verify(courseDao, never()).addStudentToTheCourse(anyInt(), anyString());
+        verify(studentCourseDao, never()).save(any(StudentCourse.class));
     }
 
     @Test
     void shouldRemoveStudentFromTheCourseIfCourseExist() {
 
         int studentId = 2;
+        int courseId = 1;
+        int studentCourseId = 5;
         String courseName = "Biology";
 
-        when(courseDao.findCourseByName(anyString())).thenReturn(Optional.of(new Course()));
+        StudentCourse expectedStudentCourseToRemove = new StudentCourse(studentCourseId, studentId, courseId);
+
+        when(courseDao.findCourseByName(anyString())).thenReturn(Optional.of(new Course(courseId, null, null)));
+        when(studentCourseDao.findStudentCourseByStudentIdAndCourseId(studentId, courseId))
+                .thenReturn(Optional.of(expectedStudentCourseToRemove));
 
         courseService.studentRemovingFromTheCourse(studentId, courseName);
 
-        verify(courseDao).deleteStudentFromCourse(anyInt(), anyString());
+        verify(studentCourseDao).delete(expectedStudentCourseToRemove);
     }
 
     @Test
@@ -73,7 +82,7 @@ class CourseServiceImplTest {
 
         courseService.studentRemovingFromTheCourse(studentId, courseName);
 
-        verify(courseDao, never()).deleteStudentFromCourse(anyInt(), anyString());
+        verify(studentCourseDao, never()).findStudentCourseByStudentIdAndCourseId(anyInt(), anyInt());
     }
 
 

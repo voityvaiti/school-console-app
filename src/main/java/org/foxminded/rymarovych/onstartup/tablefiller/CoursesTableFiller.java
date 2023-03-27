@@ -12,7 +12,7 @@ public class CoursesTableFiller extends TableFiller {
 
         final String STATEMENT_BEGINNING = """
                 DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM courses LIMIT 1) THEN
-                INSERT INTO courses (id, name) VALUES
+                INSERT INTO courses (name) VALUES
                 """;
 
         String[] coursesNames = {"Biology", "Math", "Art", "History", "Physics",
@@ -26,7 +26,6 @@ public class CoursesTableFiller extends TableFiller {
             );
 
             statementBuilder.append(STATEMENT_ELEM_START).
-                    append(i).append(STATEMENT_GAP).
                     append(course).
                     append(STATEMENT_ELEM_END);
         }
