@@ -1,26 +1,53 @@
 package org.foxminded.rymarovych.onstartup.tablescreator;
 
-import org.foxminded.rymarovych.utility.database.SQLScriptRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.nio.file.Paths;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 @Component
 public class TablesCreator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TablesCreator.class);
 
-    private static final String CREATE_TABLES_IF_NOT_EXIST_SCRIPT_PATH =
-            "src/main/resources/sql/CREATE_TABLES_IF_NOT_EXIST.sql";
+    private static final String TABLES_INIT_SCRIPT_PATH =
+            "src/main/resources/db/script/TABLES_INIT.sql";
+
+
+    private final DataSource dataSource;
+
+    public TablesCreator(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     public void createTablesIfNotExist() {
-        SQLScriptRunner sqlScriptRunner = new SQLScriptRunner();
 
-        LOGGER.debug("Running tables existence ensure statement...");
+        String sqlScript;
 
-        sqlScriptRunner.runSqlScript(Paths.get(CREATE_TABLES_IF_NOT_EXIST_SCRIPT_PATH));
+        try {
+            sqlScript = Files.readString(Path.of(TABLES_INIT_SCRIPT_PATH));
 
-        LOGGER.debug("Tables existence ensure statement finished");
+        } catch (IOException e) {
+            LOGGER.error("Error when reading sql script by path: {}", TABLES_INIT_SCRIPT_PATH);
+            throw new RuntimeException(e);
+        }
+
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            statement.execute(sqlScript);
+
+        } catch (SQLException e) {
+            LOGGER.error("Error when executing sql script: {}", sqlScript);
+            throw new RuntimeException(e);
+        }
+
     }
 }
