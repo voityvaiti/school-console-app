@@ -1,9 +1,9 @@
 package org.foxminded.rymarovych.onstartup.tablefiller;
 
-import org.foxminded.rymarovych.utility.database.DatabaseConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,7 +11,7 @@ import java.sql.Statement;
 @Component
 public class TablesFiller {
 
-    private final Connection connection = DatabaseConnector.getInstance().getConnection();
+    private final DataSource dataSource;
 
     private final CoursesTableFiller coursesTableFiller;
     private final GroupsTableFiller groupsTableFiller;
@@ -19,7 +19,8 @@ public class TablesFiller {
     private final StudentsTableFiller studentsTableFiller;
 
     @Autowired
-    public TablesFiller(CoursesTableFiller coursesTableFiller, GroupsTableFiller groupsTableFiller, StudentsCoursesTableFiller studentsCoursesTableFiller, StudentsTableFiller studentsTableFiller) {
+    public TablesFiller(DataSource dataSource, CoursesTableFiller coursesTableFiller, GroupsTableFiller groupsTableFiller, StudentsCoursesTableFiller studentsCoursesTableFiller, StudentsTableFiller studentsTableFiller) {
+        this.dataSource = dataSource;
         this.coursesTableFiller = coursesTableFiller;
         this.groupsTableFiller = groupsTableFiller;
         this.studentsCoursesTableFiller = studentsCoursesTableFiller;
@@ -28,7 +29,9 @@ public class TablesFiller {
 
     public void fillTablesIfEmpty() {
 
-        try(Statement statement = connection.createStatement() ) {
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
             statement.execute(coursesTableFiller.generateStatement());
             statement.execute(groupsTableFiller.generateStatement());
             statement.execute(studentsCoursesTableFiller.generateStatement());
