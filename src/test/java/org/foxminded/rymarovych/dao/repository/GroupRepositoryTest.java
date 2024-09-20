@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 }))
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Sql(
-        scripts = {"/sql/CREATE_TABLES.sql", "/sql/SAMPLE_DATA.sql"},
+        scripts = {"/sql/SCHEMA_AND_TABLES_INIT.sql", "/sql/SAMPLE_DATA_FILL.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
 )
 class GroupRepositoryTest {

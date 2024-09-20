@@ -1,6 +1,5 @@
 package org.foxminded.rymarovych.dao.repository.relational;
 
-import org.foxminded.rymarovych.dao.repository.CourseRepository;
 import org.foxminded.rymarovych.models.relational.StudentCourse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 }))
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Sql(
-        scripts = {"/sql/CREATE_TABLES.sql", "/sql/SAMPLE_DATA.sql"},
+        scripts = {"/sql/SCHEMA_AND_TABLES_INIT.sql", "/sql/SAMPLE_DATA_FILL.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
 )
 class StudentCourseRepositoryTest {
